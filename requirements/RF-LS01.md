@@ -10,15 +10,15 @@ _Funcional_
 _1.0_
 
 ### Title: 
-_Consulta dels plats i menus_
+_Consulta dels plats i menús disponibles_
 
 ### Description: 
-_Els usuaris podran consultar tots els plats i menús disponibles en aquell moment._
+_Els clients poden consultar tots els plats i menús disponibles a l'aplicació._
 
 ### Relations: 
 _Sense completar(pending)_
 
 ### Comments: 
-_Sense completar(pending)_
+_Inclou tant plats individuals com menús._
 
 

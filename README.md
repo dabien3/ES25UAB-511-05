@@ -30,3 +30,4 @@ __Repartidor:__ Se encarga de las entregas.
 Se pueden combinar roles en una misma cuenta y modificarlos en cualquier momento.
 
 
+### Descubrimiento y Pedido de Platos

@@ -8,9 +8,9 @@ QueMenges nace como una plataforma innovadora que permite conectar a personar qu
 
 A diferencia de servicios tradicionales, donde la oferta la centramos en los restuarantes y los grandes nombres de marcas, QueMenges apuesta por una experiencia más personal y variada. Aquí, cualquier persona con talento para la cocina puede compartir sus platos, y los ususarios pueden elegir entre una amplia gama de opciones a tiempo real.
 
-__Lanzamiento inicial:__ Área metropolitana de Barcelona  
-__Disponible en:__ Web, Android e iOS  
-__Idiomas:__ Catalán, Castellano, Inglés  
+__·Lanzamiento inicial:__ Área metropolitana de Barcelona  
+__·Disponible en:__ Web, Android e iOS  
+__·Idiomas:__ Catalán, Castellano, Inglés  
 
 ## FUNCIONALIDADES CLAVE 
 ___
@@ -20,7 +20,7 @@ Para usar QueMenges, los usuarios deben registrarse con su correo o iniciar sesi
 
 · Dirección de entrega (opcional si cocinan o reparten).  
 · Preferencias alimentarias (alergias, restricciones).   
-· Nombre de usuario ÚNICO (5 carácteres mínimos)
+· Nombre de usuario ÚNICO (5 carácteres mínimos).  
 · Creación contraseña segura (8 caracteres, 2 mayúsculas y 2 símbolos especiales).
 
 Además, cada usuario elige su rol dentro de la plataforma:    

@@ -20,7 +20,8 @@ Para usar QueMenges, los usuarios deben registrarse con su correo o iniciar sesi
 
 · Dirección de entrega (opcional si cocinan o reparten).  
 · Preferencias alimentarias (alergias, restricciones).   
-· Nombre de usuario único y contraseña segura (8 caracteres, 2 mayúsculas y 2 símbolos especiales).
+· Nombre de usuario ÚNICO (5 carácteres mínimos)
+· Creación contraseña segura (8 caracteres, 2 mayúsculas y 2 símbolos especiales).
 
 Además, cada usuario elige su rol dentro de la plataforma:    
 __Cliente:__ Realiza pedidos.  

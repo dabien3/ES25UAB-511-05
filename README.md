@@ -1,7 +1,5 @@
 # ES25UAB-511-05
 
-> [!NOTE]
-> Probando note
 
 # QueMenges
 _La Revolución de la comida casera_    

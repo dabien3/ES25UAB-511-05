@@ -1,7 +1,7 @@
 # Requeriments Template
 
 ### ID: 
-_RNF-LS02_
+_RF-LS02_
 
 ### Type/Category:
 _Funcional_

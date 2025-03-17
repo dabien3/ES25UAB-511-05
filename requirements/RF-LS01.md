@@ -1,4 +1,4 @@
-# Requeriments Template
+# Requirements Template
 
 ### ID: 
 _RF-LS01_

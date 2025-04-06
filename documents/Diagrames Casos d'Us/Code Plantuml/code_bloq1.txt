@@ -1,0 +1,40 @@
+@startuml
+:Client: as cl
+:Cuiner: as cu
+:Repartidor: as r
+:No registrado: as n
+
+
+(Consulta de menús) as R1
+(Hacer pedidos) as R2
+(Registro con cuenta de correo) as R3
+(Registro con shortcuts de Outlook o Gmail) as R4
+(Completar un perfil con los datos correspondientes) as R5
+(Actualizar perfil, roles incluido) as R6
+(Eliminar perfil en cualquier momento) as R7
+(Poder elegir que rol ser al registrarse) as R8
+(Se puede ser cualquier rol si se quiere) as R9
+
+cl --> R1
+cu --> R1
+r --> R1
+n --> R1
+cl --> R2
+cu --> R2
+r --> R2
+n --> R3
+n --> R4
+cl --> R5
+cu --> R5
+r --> R5
+cl --> R6
+cu --> R6
+r --> R6
+cl --> R7
+cu --> R7
+r --> R7
+n --> R8
+cl --> R9
+cu --> R9
+r --> R9
+@enduml

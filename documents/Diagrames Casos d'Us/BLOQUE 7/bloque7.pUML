@@ -1,0 +1,33 @@
+@startuml
+left to right direction
+
+actor Usuario
+actor Administrador
+
+usecase "Usar la aplicación en múltiples idiomas" as MultiIdiomas
+usecase "Acceder desde web o móvil" as AccesoDispositivos
+usecase "Garantizar compatibilidad con Android e iOS" as CompatibilidadSO
+usecase "Mantener coherencia visual con fuente Calibri" as FuenteCalibri
+usecase "Respetar identidad visual con color naranja y logo visible" as IdentidadVisual
+usecase "Responder en menos de 5ms" as TiempoRespuesta
+usecase "Estabilidad con 1000 usuarios simultáneos" as EstabilidadUsuarios
+usecase "Seguridad con protocolo OpenVPN" as SeguridadDatos
+
+Usuario --> MultiIdiomas
+Usuario --> AccesoDispositivos
+Usuario --> CompatibilidadSO
+Usuario --> FuenteCalibri
+Usuario --> IdentidadVisual
+Usuario --> TiempoRespuesta
+
+Administrador --> EstabilidadUsuarios
+Administrador --> SeguridadDatos
+
+MultiIdiomas <|-- AccesoDispositivos : <<include>>
+AccesoDispositivos <|-- CompatibilidadSO : <<include>>
+
+IdentidadVisual <|-- FuenteCalibri : <<include>>
+
+EstabilidadUsuarios <|-- TiempoRespuesta : <<extend>>
+SeguridadDatos <|-- EstabilidadUsuarios : <<include>>
+@enduml

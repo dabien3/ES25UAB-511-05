@@ -1,0 +1,26 @@
+@startuml
+left to right direction
+
+actor Cliente
+actor Cocinero
+actor Repartidor
+
+usecase "Seleccionar método de envío" as SeleccionarEnvio
+usecase "Cálculo de costo según distancia" as CalculoCosto
+usecase "Recogida personal sin costo" as RecogidaGratuita
+usecase "Seguimiento del envío en tiempo real" as SeguimientoEnvio
+usecase "Visualizar ubicación del repartidor en mapa" as UbicacionRepartidor
+usecase "Integración con Google Maps" as IntegracionMaps
+
+Cliente --> SeleccionarEnvio
+Cliente --> SeguimientoEnvio
+Cliente --> UbicacionRepartidor
+
+Cocinero --> SeleccionarEnvio
+Repartidor --> SeguimientoEnvio
+
+SeleccionarEnvio <|-- CalculoCosto : <<include>>
+SeleccionarEnvio <|-- RecogidaGratuita : <<extend>>
+UbicacionRepartidor <|-- IntegracionMaps : <<include>>
+SeguimientoEnvio <|-- UbicacionRepartidor : <<include>>
+@enduml

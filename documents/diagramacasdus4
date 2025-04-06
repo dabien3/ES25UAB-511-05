@@ -1,0 +1,15 @@
+
+    actor Cliente as "Cliente"
+    actor Cocinero as "Cocinero"
+    actor Repartidor as "Repartidor"
+
+    rectangle "Apliación"{
+        usecase "Pagar comanda" as UC1
+        usecase "Pagar con Tarjeta/PayPal" as UC2
+        usecase "Distribuir ingresos" as UC3
+
+        Cliente --> UC1
+        Cliente --> UC2
+        UC3 --> Cocinero
+        UC3 --> Repartidor
+    }

@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+
+actor Cliente
+actor Cocinero
+
+
+  usecase  "Valorar comanda" as us1
+  usecase  "Incluir criterios:\npuntualidad, estado del plato" as us2
+  usecase "Asociar valoración al cocinero" as us3
+  usecase  "Actualizar posición del cocinero" as us4
+  usecase "Ver valoraciones antes de pedir" as us5
+  usecase "Consultar valoraciones recibidas" as us6
+
+Cliente --> us1
+Cliente --> us2
+Cliente --> us5
+
+us1 --> us2
+us1 --> us3
+us3 --> us4
+
+Cocinero --> us6
+
+@enduml

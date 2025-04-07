@@ -5,22 +5,22 @@ actor Cliente
 actor Cocinero
 
 
-  usecase  "Valorar comanda" as UC1
-  usecase  "Incluir criterios:\npuntualidad, estado del plato" as UC2
-  usecase "Asociar valoración al cocinero" as UC3
-  usecase  "Actualizar posición del cocinero" as UC4
-  usecase "Ver valoraciones antes de pedir" as UC5
-  usecase "Consultar valoraciones recibidas" as UC6
+  usecase  "Valorar comanda" as us1
+  usecase  "Incluir criterios:\npuntualidad, estado del plato" as us2
+  usecase "Asociar valoración al cocinero" as us3
+  usecase  "Actualizar posición del cocinero" as us4
+  usecase "Ver valoraciones antes de pedir" as us5
+  usecase "Consultar valoraciones recibidas" as us6
 
-Cliente --> UC1
-Cliente --> UC2
-Cliente --> UC5
+Cliente --> us1
+Cliente --> us2
+Cliente --> us5
 
-UC1 --> UC2
-UC1 --> UC3
-UC3 --> UC4
+us1 --> us2
+us1 --> us3
+us3 --> us4
 
-Cocinero --> UC6
+Cocinero --> us6
 
 @enduml
 

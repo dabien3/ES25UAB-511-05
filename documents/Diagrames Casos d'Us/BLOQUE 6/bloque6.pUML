@@ -1,0 +1,21 @@
+@startuml
+left to right direction
+
+actor Cliente
+actor Cocinero
+
+usecase "Proponer platos de interés" as ProponerPlatos
+usecase "Chat privado con el cocinero" as ChatCocinero
+usecase "Menú personalizado por el cocinero" as MenuPersonalizado
+usecase "Suscripción al plan mensual" as PlanMensual
+usecase "Canjear puntos por descuentos" as CanjearPuntos
+
+Cliente --> ProponerPlatos
+Cliente --> MenuPersonalizado
+Cliente --> PlanMensual
+
+MenuPersonalizado <|-- ChatCocinero : <<include>>
+PlanMensual <|-- CanjearPuntos : <<extend>>
+Cocinero --> ChatCocinero
+Cocinero --> MenuPersonalizado
+@enduml

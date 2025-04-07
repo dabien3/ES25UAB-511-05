@@ -7,20 +7,20 @@ actor Repartidor
 
 
 
-  usecase "Realizar pago de la comanda" as UC1
-  usecase "Relacionar método de pago\n(Tarjeta / PayPal)" as UC2
-  usecase "Transferir pagos a cocinero y repartidor" as UC3
-  usecase "Conectar con plataforma de pago" as UC4
+  usecase "Realizar pago de la comanda" as us1
+  usecase "Relacionar método de pago\n(Tarjeta / PayPal)" as us2
+  usecase "Transferir pagos a cocinero y repartidor" as us3
+  usecase "Conectar con plataforma de pago" as us4
 
 
-Cliente --> UC1
-Cliente --> UC2
+Cliente --> us1
+Cliente --> us2
 
-UC1 --> UC2
-UC2 --> UC4
-UC1 --> UC3
+us1 --> us2
+us2 --> us4
+us1 --> us3
 
-Cocinero <-- UC3
-Repartidor <-- UC3
+Cocinero <-- us3
+Repartidor <-- us3
 
 @enduml

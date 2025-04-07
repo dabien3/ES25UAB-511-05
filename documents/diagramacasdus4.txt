@@ -1,15 +1,26 @@
+@startuml
+left to right direction
 
-    actor Cliente as "Cliente"
-    actor Cocinero as "Cocinero"
-    actor Repartidor as "Repartidor"
+actor Cliente
+actor Cocinero
+actor Repartidor
 
-    rectangle "Apliación"{
-        usecase "Pagar comanda" as UC1
-        usecase "Pagar con Tarjeta/PayPal" as UC2
-        usecase "Distribuir ingresos" as UC3
 
-        Cliente --> UC1
-        Cliente --> UC2
-        UC3 --> Cocinero
-        UC3 --> Repartidor
-    }
+
+  usecase "Realizar pago de la comanda" as UC1
+  usecase "Relacionar método de pago\n(Tarjeta / PayPal)" as UC2
+  usecase "Transferir pagos a cocinero y repartidor" as UC3
+  usecase "Conectar con plataforma de pago" as UC4
+
+
+Cliente --> UC1
+Cliente --> UC2
+
+UC1 --> UC2
+UC2 --> UC4
+UC1 --> UC3
+
+Cocinero <-- UC3
+Repartidor <-- UC3
+
+@enduml

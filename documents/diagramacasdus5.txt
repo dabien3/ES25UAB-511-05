@@ -1,0 +1,27 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Cliente
+actor Cocinero
+
+
+  usecase  "Valorar comanda" as UC1
+  usecase  "Incluir criterios:\npuntualidad, estado del plato" as UC2
+  usecase "Asociar valoración al cocinero" as UC3
+  usecase  "Actualizar posición del cocinero" as UC4
+  usecase "Ver valoraciones antes de pedir" as UC5
+  usecase "Consultar valoraciones recibidas" as UC6
+
+Cliente --> UC1
+Cliente --> UC2
+Cliente --> UC5
+
+UC1 --> UC2
+UC1 --> UC3
+UC3 --> UC4
+
+Cocinero --> UC6
+
+@enduml
+

@@ -22,7 +22,6 @@ Cliente --> CambiarVista
 Cliente --> VerPlatosCocinero
 Cliente --> Buscar
 Cliente --> DisponibilidadCocinero
-Cliente --> ReservarPedido
 Cliente --> VerIngredientes
 Cliente --> EliminarIngredientes
 Cliente --> ConfirmarPedido

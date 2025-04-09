@@ -10,7 +10,6 @@ usecase "Cálculo de costo según distancia" as CalculoCosto
 usecase "Recogida personal sin costo" as RecogidaGratuita
 usecase "Seguimiento del envío en tiempo real" as SeguimientoEnvio
 usecase "Visualizar ubicación del repartidor en mapa" as UbicacionRepartidor
-usecase "Integración con Google Maps" as IntegracionMaps
 
 Cliente --> SeleccionarEnvio
 Cliente --> SeguimientoEnvio
@@ -21,6 +20,5 @@ Repartidor --> SeguimientoEnvio
 
 SeleccionarEnvio <|-- CalculoCosto : <<include>>
 SeleccionarEnvio <|-- RecogidaGratuita : <<extend>>
-UbicacionRepartidor <|-- IntegracionMaps : <<include>>
 SeguimientoEnvio <|-- UbicacionRepartidor : <<include>>
 @enduml

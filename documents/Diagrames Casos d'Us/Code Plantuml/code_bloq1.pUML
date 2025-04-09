@@ -23,18 +23,16 @@ cl --> R2
 cu --> R2
 r --> R2
 n --> R3
-n --> R4
 cl --> R5
 cu --> R5
 r --> R5
 cl --> R6
 cu --> R6
 r --> R6
-cl --> R7
-cu --> R7
-r --> R7
 n --> R8
-cl --> R9
-cu --> R9
-r --> R9
+
+
+R3 --|> R4: <<extend>>
+R6 --|> R7 : <<extend>>
+R6 --|> R9 : <<extend>>
 @enduml

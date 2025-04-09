@@ -23,9 +23,11 @@ Cliente --> VerPlatosCocinero
 Cliente --> Buscar
 Cliente --> DisponibilidadCocinero
 Cliente --> VerIngredientes
-Cliente --> EliminarIngredientes
 Cliente --> ConfirmarPedido
 Cliente --> HistorialPedidos
 Cliente --> RepetirPedido
+
+VerIngredientes <|-- EliminarIngredientes : <<extend>>
+
 
 @enduml

@@ -15,8 +15,6 @@ usecase "Confirmar y cerrar pedido" as ConfirmarPedido
 usecase "Consultar historial de pedidos" as HistorialPedidos
 usecase "Repetir pedido anterior" as RepetirPedido
 
-usecase "Priorizar resultados por distancia y restricciones" as PriorizarResultados
-usecase "Limitar a 3 pedidos activos por cliente" as LimitarPedidos
 
 Cliente --> VerPlatosRestricciones
 Cliente --> VerTiempoEntrega
@@ -31,6 +29,4 @@ Cliente --> ConfirmarPedido
 Cliente --> HistorialPedidos
 Cliente --> RepetirPedido
 
-VerPlatosRestricciones <|-- PriorizarResultados : <<include>>
-ConfirmarPedido <|-- LimitarPedidos : <<extend>>
 @enduml

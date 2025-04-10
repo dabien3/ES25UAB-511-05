@@ -5,18 +5,13 @@ actor Cliente
 actor Cocinero
 actor Repartidor
 
-  usecase "Realizar pago de la comanda" as us1
-  usecase "Seleccionar método de pago\n(Tarjeta / PayPal)" as us2
-  usecase "Transferir pagos a cocinero y repartidor" as us3
-  usecase "Conectar con plataforma de pago" as us4
+  usecase "Realizar pago de la comanda Tarjeta / PayPal)" as us2
+  usecase "Transferir parte porporcional cocinero y repartidor" as us3
 
 
 Cliente --> us2
 
-us2 --> us4 : include
-us1 --> us3 : include
-us4 --> us1 : include
-
+us2 -->us3 : <<include>>
 Cocinero <-- us3
 Repartidor <-- us3
 

@@ -1,0 +1,33 @@
+@startuml
+left to right direction
+
+actor Cliente
+
+usecase "Ver platos según restricciones alimentarias" as VerPlatosRestricciones
+usecase "Ver tiempo estimado de entrega" as VerTiempoEntrega
+usecase "Cambiar entre vista de platos o cocineros" as CambiarVista
+usecase "Ver platos de un cocinero" as VerPlatosCocinero
+usecase "Buscar platos o cocineros" as Buscar
+usecase "Ver disponibilidad de cocinero" as DisponibilidadCocinero
+usecase "Ver ingredientes y alérgenos" as VerIngredientes
+usecase "Eliminar ingredientes opcionales" as EliminarIngredientes
+usecase "Confirmar y cerrar pedido" as ConfirmarPedido
+usecase "Consultar historial de pedidos" as HistorialPedidos
+usecase "Repetir pedido anterior" as RepetirPedido
+
+
+Cliente --> VerPlatosRestricciones
+Cliente --> VerTiempoEntrega
+Cliente --> CambiarVista
+Cliente --> VerPlatosCocinero
+Cliente --> Buscar
+Cliente --> DisponibilidadCocinero
+Cliente --> VerIngredientes
+Cliente --> ConfirmarPedido
+Cliente --> HistorialPedidos
+Cliente --> RepetirPedido
+
+VerIngredientes <|-- EliminarIngredientes : <<extend>>
+
+
+@enduml

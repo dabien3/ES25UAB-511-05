@@ -14,9 +14,9 @@ actor Cocinero
 Cliente --> us1
 Cliente --> us5
 
-us1 --> us3: include
-us3 --> us4 : include
-us3 --->  us6 :extend
+us1  .> us3: include
+us3  .> us4 : include
+us3  .>  us6 :extend
 
 Cocinero --> us6
 

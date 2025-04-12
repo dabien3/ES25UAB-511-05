@@ -27,7 +27,7 @@ Cliente --> ConfirmarPedido
 Cliente --> HistorialPedidos
 Cliente --> RepetirPedido
 
-VerIngredientes <|-- EliminarIngredientes : <<extend>>
+VerIngredientes <. EliminarIngredientes : <<extend>>
 
 
 @enduml

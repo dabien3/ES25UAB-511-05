@@ -11,7 +11,7 @@ actor Repartidor
 
 Cliente --> us2
 
-us2 -->us3 : <<include>>
+us2  .> us3 : <<include>>
 Cocinero <-- us3
 Repartidor <-- us3
 

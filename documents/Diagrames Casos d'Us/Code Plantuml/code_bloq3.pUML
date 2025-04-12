@@ -18,7 +18,7 @@ Cliente --> UbicacionRepartidor
 Cocinero --> SeleccionarEnvio
 Repartidor --> SeguimientoEnvio
 
-SeleccionarEnvio <|-- CalculoCosto : <<include>>
-SeleccionarEnvio <|-- RecogidaGratuita : <<extend>>
-SeguimientoEnvio <|-- UbicacionRepartidor : <<include>>
+SeleccionarEnvio <. CalculoCosto : <<include>>
+SeleccionarEnvio <. RecogidaGratuita : <<extend>>
+SeguimientoEnvio <. UbicacionRepartidor : <<include>>
 @enduml

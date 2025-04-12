@@ -32,7 +32,7 @@ r --> R6
 n --> R8
 
 
-R3 --|> R4: <<extend>>
-R6 --|> R7 : <<extend>>
-R6 --|> R9 : <<extend>>
+R3 .> R4: <<extend>>
+R6 .> R7 : <<extend>>
+R6 .> R9 : <<extend>>
 @enduml

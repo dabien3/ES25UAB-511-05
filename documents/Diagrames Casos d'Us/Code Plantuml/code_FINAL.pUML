@@ -1,0 +1,159 @@
+@startuml
+left to right direction
+
+:Client: as cl
+:Cuiner: as cu
+:Repartidor: as r
+:No registrado: as n
+
+' --- B1 ---
+frame "Gestión de cuentas y creación de perfiles de usuario" #ADD8E6 {
+  usecase "Consulta de menús" as a1
+  usecase "Hacer pedidos" as a2
+  usecase "Registro con cuenta de correo" as a3
+  usecase "Registro con shortcuts de Outlook o Gmail" as a4
+  usecase "Completar un perfil con los datos correspondientes" as a5
+  usecase "Actualizar perfil, roles incluido" as a6
+  usecase "Eliminar perfil en cualquier momento" as a7
+  usecase "Poder elegir que rol ser al registrarse" as a8
+  usecase "Se puede ser cualquier rol si se quiere" as a9
+
+  a3 .> a4: <<extend>>
+  a6 .> a7 : <<extend>>
+  a6 .> a9 : <<extend>>
+}
+
+' --- B2 ---
+frame "Realización de comandas" #DDDDFF {
+  usecase "Ver platos según restricciones alimentarias" as b1
+  usecase "Ver tiempo estimado de entrega" as b2
+  usecase "Cambiar entre vista de platos o cocineros" as b3
+  usecase "Ver platos de un cocinero" as b4
+  usecase "Buscar platos o cocineros" as b5
+  usecase "Ver disponibilidad de cocinero" as b6
+  usecase "Ver ingredientes y alérgenos" as b7
+  usecase "Eliminar ingredientes opcionales" as b8
+  usecase "Confirmar y cerrar pedido" as b9
+  usecase "Consultar historial de pedidos" as b10
+  usecase "Repetir pedido anterior" as b11
+
+  b7 <. b8 : <<extend>>
+}
+
+' --- B3 ---
+frame "Envío de comandas" #FFDDDD {
+  usecase "Seleccionar método de envío" as c1
+  usecase "Cálculo de costo según distancia" as c2
+  usecase "Recogida personal sin costo" as c3
+  usecase "Seguimiento del envío en tiempo real" as c4
+  usecase "Visualizar ubicación del repartidor en mapa" as c5
+
+  c1 <. c2 : <<include>>
+  c1 <. c3 : <<extend>>
+  c4 <. c5 : <<include>>
+}
+
+' --- B4 ---
+frame "Pago de la comanda" #DDFFDD {
+  usecase "Realizar pago de la comanda Tarjeta/PayPal" as d1
+  usecase "Transferir parte proporcional cocinero y repartidor" as d2
+  
+  d1 .> d2 : <<include>>
+  d2 --> cu
+  d2 --> r
+}
+
+' --- B5 ---
+frame "Valoración de la comanda" #FFFFDD {
+  usecase "Valorar comanda" as e1
+  usecase "Asociar valoración al cocinero: incluir criterios:\npuntualidad, estado del plato" as e2
+  usecase "Actualizar posición del cocinero" as e3
+  usecase "Ver valoraciones antes de pedir" as e4
+  usecase "Consultar valoraciones recibidas" as e5
+
+  e1 .> e2: include
+  e2 .> e3 : include
+  e2 .> e5 : extend
+}
+
+' --- B6 ---
+frame "Funcionalidades adicionales" #FFD580 {
+  usecase "Proponer platos de interés" as f1
+  usecase "Chat privado con el cocinero" as f2
+  usecase "Menú personalizado por el cocinero" as f3
+  usecase "Suscripción al plan mensual" as f4
+  usecase "Canjear puntos por descuentos" as f5
+
+  f3 <. f2 : <<include>>
+  f4 <. f5 : <<extend>>
+}
+
+' --- CONEXIONES ---
+cl --> a1
+cu --> a1
+r --> a1
+n --> a1
+
+cl --> a2
+cu --> a2
+r --> a2
+n --> a3
+
+cl --> a5
+cu --> a5
+r --> a5
+
+cl --> a6
+cu --> a6
+r --> a6
+n --> a8
+
+cl --> b1
+cl --> b2
+cl --> b3
+cl --> b4
+cl --> b5
+cl --> b6
+cl --> b7
+cl --> b9
+cl --> b10
+cl --> b11
+
+cl --> c1
+cl --> c4
+cl --> c5
+cu --> c1
+r --> c4
+
+cl --> d1
+
+cl --> e1
+cl --> e4
+cu --> e5
+
+cl --> f1
+cl --> f3
+cl --> f4
+cu --> f2
+cu --> f3
+
+skinparam frame {
+  BackgroundColor #F5F5F5
+  BorderColor #333
+  FontSize 12
+}
+
+skinparam actor {
+  BackgroundColor #E0E0E0
+  BorderColor #666
+  FontSize 14
+}
+
+skinparam usecase {
+  BackgroundColor #FFFFFF
+  BorderColor #555
+  FontSize 11
+}
+
+hide circle
+@enduml

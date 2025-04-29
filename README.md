@@ -1,5 +1,4 @@
 # QueMenges
-_La Revolución de la comida casera_    
 
 QueMenges nace como una plataforma innovadora que permite conectar a personar que cocinan en casa con quienes buscan platos auténticos y hechos con dedicación.
 

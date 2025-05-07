@@ -1,0 +1,37 @@
+@startuml
+
+class Cliente
+{
+   +restriccionesAlimentarias : string
+   +elegirVista() : void   
+   +buscarCocineroOPlato() : void
+   -historial : Pedido
+   +mostrarHistorial() : Pedido
+}
+class Cocinero
+{
+   -disponibilidad : boolean
+   -horaDisponibilidad : string
+   +mostrarDisponibilidad() : boolean, string
+   +mostrarPlatos() : string
+}
+class Pedido
+{
+   +confirmarPedido() : boolean
+}
+class Platos
+{
+   +ingredientes : string
+   -tiempoEstimadoEntrega : string
+   +priorizarPlatos() : void
+   +mostrarTiempoEstimadoEntrega() : string
+   +mostrarIngredientes() : string
+   +modificarPlato() : void
+}
+
+Pedido --> Cliente
+Pedido --> Cocinero
+Platos --> Cliente
+Platos --> Cocinero
+
+@enduml

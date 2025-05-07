@@ -1,0 +1,31 @@
+@startuml
+
+class Valoracion {
+  - puntuacionPuntualidad: int
+  - puntuacionCalidad: int
+  - comentario: String
+  + calcularMedia()
+}
+
+class Comanda {
+  - id: int
+  - fecha: Date
+}
+
+class Cocinero {
+  - id: int
+  - nombre: String
+  + obtenerValoracion()
+}
+
+class Cliente {
+  - id: int
+  - nombre: String
+  + verValoraciones()
+}
+
+Cliente "1" o-- "0..*" Valoracion : realiza >
+Valoracion "1" --> "1" Comanda : sobre >
+Valoracion "1" --> "1" Cocinero : evalúa >
+
+@enduml

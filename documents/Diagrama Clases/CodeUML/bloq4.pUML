@@ -1,0 +1,62 @@
+@startuml
+
+class Client{
+  +ferPagament()
+}
+
+class Comanda {
+  +data: Date
+  +numComanda: double
+  +total: double
+}
+
+class Pagament {
+  +data: Date
+  +importTotal: int
+  +confirmarPagament(): boolean
+}
+
+class PagamentTargeta {
+  -numeroTargeta: String
+  -dataCaducitat: Date
+  -pinSeguretat: String
+  +validarTransaccio()
+}
+
+class PagamentPayPal {
+  #email: String
+  -contrasenya: String
+  +validarTransaccio()
+}
+
+class PlataformaPagament {
+  +validarTransaccio()
+  +realitzarAutenticacio(): boolean
+}
+
+class Transaccio {
+  +importCuiner: int
+  +importRepartidor: int
+  +realitzarIngressos()
+}
+
+class Cuiner {
+  +nom: String
+  #compteBancari: String
+}
+
+class Repartidor {
+  +nom: String
+  #compteBancari: String
+}
+
+Client <-- Pagament
+Pagament <-- Comanda
+Pagament --> PlataformaPagament
+PagamentTargeta --|> PlataformaPagament
+PagamentPayPal --|> PlataformaPagament
+Transaccio --> Pagament
+Transaccio <-- Cuiner
+Transaccio <-- Repartidor
+
+@enduml

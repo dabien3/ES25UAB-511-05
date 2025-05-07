@@ -1,24 +1,24 @@
 @startuml
 class Usuario 
 {
-   +consultaMenu()
+   +consultaMenu() : void
 }
 class "Usuario Registrado" as UsuarioRegistrado
 {
-   +nombreUsuario
-   #correuElectronic
-   +rols
-   +actualizarPerfil()
-   +eliminarPerfil()
+   +nombreUsuario : string
+   #correuElectronic : string
+   +rols : string
+   +actualizarPerfil() : void
+   +eliminarPerfil() : void
    
 }
 class "Usuario No Registrado" as UsuarioNoRegistrado
 {
-   +registrarse()
+   +registrarse() : void
 }
 class Cliente
 {
-   +hacerPedido()
+   +hacerPedido() : void
 }
 class Cocinero
 class Repartidor

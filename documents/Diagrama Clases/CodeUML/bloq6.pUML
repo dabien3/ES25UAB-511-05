@@ -1,0 +1,40 @@
+@startuml
+
+class Usuario {
+  - id: int
+  - nombre: String
+}
+
+class PlatoPropuesto {
+  - descripcion: String
+}
+
+class MenuPropuesto {
+  - id: int
+}
+
+class Chat {
+  - mensajes: String
+}
+
+class Suscripcion {
+  - tarifaPlana: boolean
+}
+
+class Punto {
+  - cantidad: int
+}
+
+class Comanda {
+  - id: int
+}
+
+Usuario "1" o-- "*" PlatoPropuesto : propone >
+PlatoPropuesto "1" o-- "1" MenuPropuesto : aparece en >
+MenuPropuesto "1" o-- "1" Chat : permite >
+Usuario "1" o-- "0..1" Suscripcion : tiene >
+Usuario "1" o-- "*" Punto : gana >
+Comanda "1" o-- "*" Punto : genera >
+
+@enduml
+

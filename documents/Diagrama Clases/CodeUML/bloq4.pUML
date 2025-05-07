@@ -52,7 +52,7 @@ class Repartidor {
 
 Client <-- Pagament
 Pagament <-- Comanda
-Pagament --> PlataformaPagament
+Pagament <-- PlataformaPagament
 PagamentTargeta --|> PlataformaPagament
 PagamentPayPal --|> PlataformaPagament
 Transaccio --> Pagament

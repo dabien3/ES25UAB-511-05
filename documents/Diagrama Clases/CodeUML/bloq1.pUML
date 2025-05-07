@@ -1,0 +1,34 @@
+@startuml
+class Usuario 
+{
+   +consultaMenu()
+}
+class "Usuario Registrado" as UsuarioRegistrado
+{
+   +nombreUsuario
+   #correuElectronic
+   +rols
+   +actualizarPerfil()
+   +eliminarPerfil()
+   
+}
+class "Usuario No Registrado" as UsuarioNoRegistrado
+{
+   +registrarse()
+}
+class Cliente
+{
+   +hacerPedido()
+}
+class Cocinero
+class Repartidor
+class Pedido
+
+Usuario <|-- UsuarioRegistrado
+Usuario <|-- UsuarioNoRegistrado
+UsuarioRegistrado <|-- Cliente
+UsuarioRegistrado <|-- Cocinero
+UsuarioRegistrado <|-- Repartidor
+Pedido --> UsuarioRegistrado
+
+@enduml

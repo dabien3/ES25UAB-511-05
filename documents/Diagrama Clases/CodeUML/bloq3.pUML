@@ -1,0 +1,52 @@
+@startuml
+
+class Usuario {
+    -nombre: string
+}
+
+class Cliente {
+    -direccion: string
+    +consultarPedido(): Pedido
+}
+
+class Cocinero {
+    -direccion: string
+    +prepararPedido(): void
+}
+
+class Repartidor {
+    -posicionActual: Coordenadas
+    +actualizarPosicion(): void
+}
+
+Usuario <|-- Cliente
+Usuario <|-- Cocinero
+Usuario <|-- Repartidor
+
+class Pedido {
+    -id: int
+    -estado: string
+    -total: float
+    +iniciarEnvio(): void
+    +seguirProgreso(): void
+}
+
+class Envio {
+    -tipo: string
+    -costo: float
+    +calcularCosto(): float
+    +esGratuito(): bool
+}
+
+class Coordenadas {
+    -latitud: float
+    -longitud: float
+}
+
+Pedido --> Envio
+Pedido --> Cliente
+Pedido --> Cocinero
+Envio --> Repartidor
+Repartidor --> Coordenadas
+
+@enduml

@@ -1,21 +1,48 @@
 @startuml
 left to right direction
+skinparam packageStyle rectangle
 
 actor Cliente
 actor Cocinero
+actor Cliente as Cliente
+actor Cocinero as Cocinero
 
 usecase "Proponer platos de interés" as ProponerPlatos
 usecase "Chat privado con el cocinero" as ChatCocinero
 usecase "Menú personalizado por el cocinero" as MenuPersonalizado
 usecase "Suscripción al plan mensual" as PlanMensual
 usecase "Canjear puntos por descuentos" as CanjearPuntos
+usecase "Proponer platos de interés" as CU1
+usecase "Chat privado con el cocinero" as CU2
+usecase "Menú personalizado por el cocinero" as CU3
 
 Cliente --> ProponerPlatos
 Cliente --> MenuPersonalizado
 Cliente --> PlanMensual
+rectangle "Suscripción" {
+  usecase "Suscripción mensual" as CU4
+  usecase "Realizar pedido" as CU5
+  usecase "Acumular puntos" as CU6
+  usecase "Canjear puntos por descuento" as CU7
 
-MenuPersonalizado <. ChatCocinero : <<include>>
-PlanMensual <. CanjearPuntos : <<extend>>
+  CU5 --> CU6 : include
+  CU7 --> CU6 : extend
+  CU4 --> CU5 : extend
+}
+
+MenuPersonalizado <|-- ChatCocinero : <<include>>
+PlanMensual <|-- CanjearPuntos : <<extend>>
 Cocinero --> ChatCocinero
 Cocinero --> MenuPersonalizado
+Cliente --> CU1
+Cliente --> CU3
+Cliente --> CU4
+Cliente --> CU5
+Cliente --> CU7
+
+Cocinero --> CU2
+Cocinero --> CU3
+
+CU3 --> CU2 : include
+CU1 --> CU3 : extend
 @enduml

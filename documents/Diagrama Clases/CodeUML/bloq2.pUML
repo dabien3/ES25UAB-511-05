@@ -29,9 +29,14 @@ class Platos
    +modificarPlato() : void
 }
 
+class Menú
+class Buscador
+class HistorialPedidos
 Pedido --> Cliente
 Pedido --> Cocinero
 Platos --> Cliente
 Platos --> Cocinero
-
+HistorialPedidos -- Cliente : pertany
+Menú o-- Platos
+Buscador --> Cliente
 @enduml

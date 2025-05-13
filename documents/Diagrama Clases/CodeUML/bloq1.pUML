@@ -23,6 +23,10 @@ class Cliente
 class Cocinero
 class Repartidor
 class Pedido
+class Menú
+class ShortcutCorreo
+class PerfilUsuario
+class Platos
 
 Usuario <|-- UsuarioRegistrado
 Usuario <|-- UsuarioNoRegistrado
@@ -30,5 +34,10 @@ UsuarioRegistrado <|-- Cliente
 UsuarioRegistrado <|-- Cocinero
 UsuarioRegistrado <|-- Repartidor
 Pedido --> UsuarioRegistrado
+Menú --> Usuario
+PerfilUsuario -- Usuario : pertany
+Platos --o Menú
+ShortcutCorreo --> PerfilUsuario
+
 
 @enduml

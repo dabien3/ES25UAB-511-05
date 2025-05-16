@@ -1,32 +1,57 @@
 @startuml
 
 class Usuario {
-  - id: int
-  - nombre: String
+  - id : int
+  - nombre : String
+  - correo : String
+  + proponerPlato() : void
+  + comunicarseConCocinero() : void
+  + activarSuscripcion() : void
+  + consultarPuntos() : int
+  + realizarPedido() : void
 }
 
 class PlatoPropuesto {
-  - descripcion: String
+  - descripcion : String
+  - ingredientes : String
+  + mostrarDescripcion() : String
+  + editarPlato() : void
 }
 
 class MenuPropuesto {
-  - id: int
+  - id : int
+  - nombreMenu : String
+  + agregarPlato() : void
+  + mostrarMenu() : String
 }
 
 class Chat {
-  - mensajes: String
+  - mensajes : String
+  + enviarMensaje(String) : void
+  + verConversacion() : String
 }
 
 class Suscripcion {
-  - tarifaPlana: boolean
+  - tarifaPlana : boolean
+  - fechaInicio : Date
+  - fechaFin : Date
+  + estaActiva() : boolean
+  + calcularDuracion() : int
 }
 
 class Punto {
-  - cantidad: int
+  - cantidad : int
+  - descripcion : String
+  + obtenerCantidad() : int
+  + canjear() : void
 }
 
 class Comanda {
-  - id: int
+  - id : int
+  - fecha : Date
+  - total : float
+  + generarPuntos() : int
+  + mostrarResumen() : String
 }
 
 Usuario "1" o-- "*" PlatoPropuesto : propone >
@@ -35,6 +60,7 @@ MenuPropuesto "1" o-- "1" Chat : permite >
 Usuario "1" o-- "0..1" Suscripcion : tiene >
 Usuario "1" o-- "*" Punto : gana >
 Comanda "1" o-- "*" Punto : genera >
+Usuario "1" --> "*" Comanda : realiza >
 
 @enduml
 

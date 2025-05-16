@@ -4,28 +4,51 @@ class Valoracion {
   - puntuacionPuntualidad: int
   - puntuacionCalidad: int
   - comentario: String
-  + calcularMedia()
+  + calcularMedia(): float
+  + mostrarComentario(): String
 }
 
 class Comanda {
   - id: int
   - fecha: Date
+  - platos: List<Plato>
+  + obtenerResumen(): String
 }
 
 class Cocinero {
   - id: int
   - nombre: String
-  + obtenerValoracion()
+  - platosDisponibles: List<Plato>
+  + obtenerValoracion(): float
+  + mostrarPlatos(): List<Plato>
 }
 
 class Cliente {
   - id: int
   - nombre: String
-  + verValoraciones()
+  - historialValoraciones: List<Valoracion>
+  + verValoraciones(): List<Valoracion>
+  + realizarValoracion(): void
+  + verHistorialComandas(): List<Comanda>
 }
+
+class Plato {
+  - nombre: String
+  - descripcion: String
+  - precio: float
+  + mostrarInfo(): String
+}
+
+class HistorialValoraciones
+class HistorialComandas
 
 Cliente "1" o-- "0..*" Valoracion : realiza >
 Valoracion "1" --> "1" Comanda : sobre >
 Valoracion "1" --> "1" Cocinero : evalúa >
+
+Cliente --> HistorialValoraciones
+Cliente --> HistorialComandas
+Comanda --> "1..*" Plato
+Cocinero --> "0..*" Plato
 
 @enduml

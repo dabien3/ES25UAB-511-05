@@ -1,29 +1,29 @@
 @startuml
 
-class Usuario {
+class Usuario <<entity>> {
     -nombre: string
 }
 
-class Cliente {
+class Cliente <<entity>> {
     -direccion: string
     +consultarPedido(): Pedido
 }
 
-class Cocinero {
+class Cocinero <<entity>> {
     -direccion: string
-    +prepararPedido(): void
+    +prepararPedido(pedido: Pedido): void
 }
 
-class Repartidor {
+class Repartidor <<entity>> {
     -posicionActual: Coordenadas
-    +actualizarPosicion(): void
+    +actualizarPosicion(nuevaPosicion: Coordenadas): void
 }
 
 Usuario <|-- Cliente
 Usuario <|-- Cocinero
 Usuario <|-- Repartidor
 
-class Pedido {
+class Pedido <<entity>> {
     -id: int
     -estado: string
     -total: float
@@ -31,22 +31,36 @@ class Pedido {
     +seguirProgreso(): void
 }
 
-class Envio {
+class Envio <<entity>> {
     -tipo: string
     -costo: float
     +calcularCosto(): float
     +esGratuito(): bool
 }
 
-class Coordenadas {
+class ubicacionCoords <<entity>> {
     -latitud: float
     -longitud: float
 }
 
-Pedido --> Envio
-Pedido --> Cliente
-Pedido --> Cocinero
-Envio --> Repartidor
-Repartidor --> Coordenadas
+
+class GestorPedido <<control>> {
+    +crearPedido(cliente: Cliente): Pedido
+    +asignarCocinero(cocinero: Cocinero, pedido: Pedido): void
+    +asignarRepartidor(envio: Envio, repartidor: Repartidor): void
+}
+
+
+Cliente "1" --> "0..*" Pedido : hace un
+Cocinero "1" --> "0..*" Pedido : prepara
+Pedido "1" --> "1" Envio : tiene un
+Envio "1" --> "1" Repartidor : se le asigna un
+Repartidor "1" --> "1" ubicacionCoords : esta en
+
+GestorPedido --> Pedido
+GestorPedido --> Cliente
+GestorPedido --> Cocinero
+GestorPedido --> Envio
+GestorPedido --> Repartidor
 
 @enduml

@@ -1,62 +1,54 @@
 @startuml
 
-class Client{
-  +ferPagament()
+class Cliente <<boundary>> {
+  + iniciarPago()
 }
 
-class Comanda {
-  +data: Date
-  +numComanda: double
-  +total: double
+class Comanda <<entity>> {
+  + id: String
+  + total: Decimal
+  + estado: String
 }
 
-class Pagament {
-  +data: Date
-  +importTotal: int
-  +confirmarPagament(): boolean
+class Pago <<control>> {
+  + identificadorC: String
+  + metodo: String
+  + estado: String
+  + procesar()
 }
 
-class PagamentTargeta {
-  -numeroTargeta: String
-  -dataCaducitat: Date
-  -pinSeguretat: String
-  +validarTransaccio()
+class Cuiner <<entity>> {
+  + compteBancari: String
 }
 
-class PagamentPayPal {
-  #email: String
-  -contrasenya: String
-  +validarTransaccio()
+class Repartidor <<entity>> {
+  + compteBancari: String
 }
 
-class PlataformaPagament {
-  +validarTransaccio()
-  +realitzarAutenticacio(): boolean
+class "Tarjeta" <<boundary>> {
+  - numero: String
+  - caducidad: Data
+  - cvv: Codigo
 }
 
-class Transaccio {
-  +importCuiner: int
-  +importRepartidor: int
-  +realitzarIngressos()
+class PayPal <<boundary>> {
+  + email: String
 }
 
-class Cuiner {
-  +nom: String
-  #compteBancari: String
+interface PlataformaPago {
+  + autenticar()
+  + procesarTransaccion()
 }
 
-class Repartidor {
-  +nom: String
-  #compteBancari: String
-}
+Cliente -> "1..*" Comanda : "Realiza"
 
-Client <-- Pagament
-Pagament <-- Comanda
-Pagament <-- PlataformaPagament
-PagamentTargeta --|> PlataformaPagament
-PagamentPayPal --|> PlataformaPagament
-Transaccio --> Pagament
-Transaccio <-- Cuiner
-Transaccio <-- Repartidor
+Comanda *-- "1" Pago 
+Pago ..> PlataformaPago : "Usa" 
+
+Pago o--> Cuiner : "Transfiere su %"
+Pago o--> Repartidor : "Transfiere su %"
+
+Tarjeta -up-|> PlataformaPago 
+PayPal -up-|> PlataformaPago 
 
 @enduml

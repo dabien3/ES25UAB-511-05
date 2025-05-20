@@ -36,7 +36,7 @@ Pedido --> Cliente
 Pedido --> Cocinero
 Platos --> Cliente
 Platos --> Cocinero
-HistorialPedidos -- Cliente : pertany
+HistorialPedidos "*" -- "1" Cliente : pertany
 Menú "1" o-- "*" Platos
 Buscador --> Cliente
 @enduml

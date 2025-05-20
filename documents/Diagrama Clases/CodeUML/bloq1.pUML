@@ -35,7 +35,7 @@ UsuarioRegistrado <|-- Cocinero
 UsuarioRegistrado <|-- Repartidor
 Pedido --> UsuarioRegistrado
 Menú --> Usuario
-PerfilUsuario -- Usuario : pertany
+PerfilUsuario "1" -- "1" Usuario : pertany
 Platos "*" --o "1" Menú
 ShortcutCorreo --> PerfilUsuario
 

@@ -1,6 +1,6 @@
 @startuml
 
-class Cliente
+class Cliente <<entity>>
 {
    +restriccionesAlimentarias : string
    +elegirVista() : void   
@@ -8,18 +8,18 @@ class Cliente
    -historial : Pedido
    +mostrarHistorial() : Pedido
 }
-class Cocinero
+class Cocinero <<entity>>
 {
    -disponibilidad : boolean
    -horaDisponibilidad : string
    +mostrarDisponibilidad() : boolean, string
    +mostrarPlatos() : string
 }
-class Pedido
+class Pedido <<entity>>
 {
    +confirmarPedido() : boolean
 }
-class Platos
+class Platos <<entity>>
 {
    +ingredientes : string
    -tiempoEstimadoEntrega : string
@@ -29,14 +29,14 @@ class Platos
    +modificarPlato() : void
 }
 
-class Menú
-class Buscador
-class HistorialPedidos
+class Menú <<comunicació>>
+class Buscador <<comunicació>>
+class HistorialPedidos <<control>>
 Pedido --> Cliente
 Pedido --> Cocinero
 Platos --> Cliente
 Platos --> Cocinero
 HistorialPedidos -- Cliente : pertany
-Menú o-- Platos
+Menú "1" o-- "*" Platos
 Buscador --> Cliente
 @enduml

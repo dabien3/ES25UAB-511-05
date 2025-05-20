@@ -1,9 +1,9 @@
 @startuml
-class Usuario 
+class Usuario <<entity>>
 {
    +consultaMenu() : void
 }
-class "Usuario Registrado" as UsuarioRegistrado
+class "Usuario Registrado" as UsuarioRegistrado <<entity>>
 {
    +nombreUsuario : string
    #correuElectronic : string
@@ -12,21 +12,21 @@ class "Usuario Registrado" as UsuarioRegistrado
    +eliminarPerfil() : void
    
 }
-class "Usuario No Registrado" as UsuarioNoRegistrado
+class "Usuario No Registrado" as UsuarioNoRegistrado <<entity>>
 {
    +registrarse() : void
 }
-class Cliente
+class Cliente <<entity>>
 {
    +hacerPedido() : void
 }
-class Cocinero
-class Repartidor
-class Pedido
-class Menú
-class ShortcutCorreo
-class PerfilUsuario
-class Platos
+class Cocinero <<entity>>
+class Repartidor <<entity>>
+class Pedido <<entity>>
+class Menú <<entity>>
+class ShortcutCorreo <<control>>
+class PerfilUsuario <<control>>
+class Platos <<entity>>
 
 Usuario <|-- UsuarioRegistrado
 Usuario <|-- UsuarioNoRegistrado
@@ -36,7 +36,7 @@ UsuarioRegistrado <|-- Repartidor
 Pedido --> UsuarioRegistrado
 Menú --> Usuario
 PerfilUsuario -- Usuario : pertany
-Platos --o Menú
+Platos "*" --o "1" Menú
 ShortcutCorreo --> PerfilUsuario
 
 

@@ -34,10 +34,10 @@ UsuarioRegistrado <|-- Cliente
 UsuarioRegistrado <|-- Cocinero
 UsuarioRegistrado <|-- Repartidor
 Pedido --> UsuarioRegistrado
-Menú --> Usuario
-PerfilUsuario "1" -- "1" Usuario : pertany
+Menú --> Usuario : consulta
+PerfilUsuario "1" -- "1" UsuarioRegistrado : pertany
 Platos "*" --o "1" Menú
-ShortcutCorreo --> PerfilUsuario
+ShortcutCorreo --> UsuarioNoRegistrado : utilitza
 
 
 @enduml

@@ -1,0 +1,32 @@
+@startuml
+actor UsuarioNoRegistrado
+boundary "Shortcut Correo" as ShortcutCorreo
+entity "Usuario Registrado" as UsuarioRegistrado
+control "Perfil Usuario" as PerfilUsuario
+
+activate UsuarioNoRegistrado
+UsuarioNoRegistrado -> ShortcutCorreo : Registrarse()
+activate ShortcutCorreo
+
+ShortcutCorreo --> UsuarioNoRegistrado : <<return>>
+deactivate UsuarioNoRegistrado
+
+ShortcutCorreo -> UsuarioRegistrado : create()
+activate UsuarioRegistrado
+
+UsuarioRegistrado --> ShortcutCorreo : <<return>>
+deactivate ShortcutCorreo
+
+UsuarioRegistrado -> PerfilUsuario : completa()
+activate PerfilUsuario
+PerfilUsuario --> UsuarioRegistrado : <<return>>
+
+UsuarioRegistrado -> PerfilUsuario : actualiza()
+PerfilUsuario --> UsuarioRegistrado : <<return>>
+
+UsuarioRegistrado -> PerfilUsuario : elimina()
+PerfilUsuario --> UsuarioRegistrado : <<return>>
+deactivate PerfilUsuario
+
+deactivate UsuarioRegistrado
+@enduml

@@ -23,8 +23,8 @@ class Cliente <<entity>>
 class Cocinero <<entity>>
 class Repartidor <<entity>>
 class Pedido <<entity>>
-class Menú <<entity>>
-class ShortcutCorreo <<control>>
+class Menú <<boundary>>
+class ShortcutCorreo <<boundary>>
 class PerfilUsuario <<control>>
 class Platos <<entity>>
 
@@ -34,10 +34,10 @@ UsuarioRegistrado <|-- Cliente
 UsuarioRegistrado <|-- Cocinero
 UsuarioRegistrado <|-- Repartidor
 Pedido --> UsuarioRegistrado
-Menú --> Usuario
-PerfilUsuario "1" -- "1" Usuario : pertany
+Menú --> Usuario : consulta
+PerfilUsuario "1" -- "1" UsuarioRegistrado : pertany
 Platos "*" --o "1" Menú
-ShortcutCorreo --> PerfilUsuario
+ShortcutCorreo --> UsuarioNoRegistrado : utilitza
 
 
 @enduml

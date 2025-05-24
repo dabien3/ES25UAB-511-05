@@ -1,0 +1,58 @@
+@startuml
+actor Cliente
+boundary Menu
+boundary Buscador
+entity Pedido
+control HistorialPedidos
+entity Platos
+entity Cocineros
+
+activate Cliente
+activate Platos
+activate Cocineros
+activate HistorialPedidos
+
+Cliente -> Menu : consulta()
+activate Menu
+
+Menu -> Platos : elegirVista() [si vista == platos]
+Menu -> Cocineros : elegirVista() [si vista == cocineros]
+Platos --> Menu : <<return>>
+Cocineros -> Menu : <<return>>
+Menu -> Menu : ordenarMenu()
+Menu -> Cliente : <<return>>
+deactivate Menu
+
+Cliente -> Buscador : usar()
+activate Buscador
+
+Buscador -> Platos : buscar()
+Buscador -> Cocineros : buscar()
+Platos -> Buscador : <<return>>
+Cocineros -> Buscador : <<return>>
+Buscador -> Cliente : <<return>>
+
+Cliente -> HistorialPedidos : consultar()
+HistorialPedidos -> Cliente : <<return>>
+
+Cliente -> Pedido : hacerPedido()
+activate Pedido
+loop añadirPlato
+   Pedido -> Platos : añadirPlato()
+   Platos -> Pedido : <<return>>
+end 
+Pedido -> Cliente : <<return>>
+Cliente -> Pedido : confirmarPedido()
+Pedido -> HistorialPedidos : añadirHistorial()
+HistorialPedidos -> Pedido : <<return>>
+Pedido -> Cliente : <<return>>
+deactivate Pedido
+
+
+deactivate HistorialPedidos
+deactivate Buscador
+deactivate Menu
+deactivate Cocineros
+deactivate Platos
+deactivate Cliente
+@enduml

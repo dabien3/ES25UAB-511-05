@@ -1,0 +1,53 @@
+@startuml
+actor Cliente
+participant Comanda
+control Pago
+boundary PlataformaPago
+boundary Tarjeta
+boundary PayPal
+entity Cuiner
+entity Repartidor
+
+activate Cliente
+Cliente -> Comanda : iniciarPagoComanda()
+activate Comanda
+
+Comanda -> Pago : procesarPagoComanda()
+activate Pago
+
+Pago -> PlataformaPago : elegirPlataforma()
+activate PlataformaPago
+
+alt Metodo == Tarjeta
+    PlataformaPago -> Tarjeta : procesarPagoT()
+    activate Tarjeta
+    return procesado()
+    deactivate Tarjeta
+else Metodo == PayPal
+    PlataformaPago -> PayPal : procesarPagoPP()
+    activate PayPal
+    return procesado()
+    deactivate PayPal
+end
+deactivate PlataformaPago
+
+Pago -> Cuiner : procesarPagoCuiner()
+activate Cuiner
+return ok
+deactivate Cuiner
+
+Pago -> Repartidor : procesarPagoRep()
+activate Repartidor
+return ok
+deactivate Repartidor
+
+PlataformaPago -> Pago : estadoPago()
+
+deactivate Pago
+
+Comanda <- Pago : estadoPago()
+deactivate Comanda
+
+Cliente <- Comanda : pago completado
+deactivate Cliente
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+actor Cliente
+entity Pedido
+control Valoracion
+entity Cocinero
+boundary ListadoPlatos
+
+activate Cliente
+
+Cliente -> Pedido : consultarPedidoEntregado()
+Pedido -> Cliente : <<return>>
+
+Cliente -> Valoracion : valorarComanda(puntualidad, estado)
+activate Valoracion
+
+Valoracion -> Cocinero : asociarValoracion()
+Cocinero --> Valoracion : <<return>>
+
+Valoracion -> ListadoPlatos : actualizarPosicionamiento()
+ListadoPlatos --> Valoracion : <<return>>
+
+Valoracion --> Cliente : <<return>>
+deactivate Valoracion
+
+Cliente -> ListadoPlatos : consultarValoraciones()
+ListadoPlatos --> Cliente : <<return>>
+
+deactivate Cliente
+@enduml

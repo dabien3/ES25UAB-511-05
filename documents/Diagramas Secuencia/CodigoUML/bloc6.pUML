@@ -1,0 +1,34 @@
+@startuml
+actor UsuarioRegistrado
+control MenuPropuesto
+boundary Chat
+control SistemaPuntos
+entity Comanda
+entity Suscripcion
+
+activate UsuarioRegistrado
+
+UsuarioRegistrado -> MenuPropuesto : proponerPlato()
+activate MenuPropuesto
+
+MenuPropuesto -> Chat : habilitarComunicacion()
+Chat --> MenuPropuesto : <<return>>
+
+MenuPropuesto --> UsuarioRegistrado : <<return>>
+deactivate MenuPropuesto
+
+UsuarioRegistrado -> Suscripcion : activarTarifaPlana()
+Suscripcion --> UsuarioRegistrado : <<return>>
+
+UsuarioRegistrado -> Comanda : pagarComanda()
+activate Comanda
+Comanda -> SistemaPuntos : generarPuntos()
+SistemaPuntos --> Comanda : <<return>>
+Comanda --> UsuarioRegistrado : <<return>>
+deactivate Comanda
+
+UsuarioRegistrado -> SistemaPuntos : consultarPuntos()
+SistemaPuntos --> UsuarioRegistrado : <<return>>
+
+deactivate UsuarioRegistrado
+@enduml

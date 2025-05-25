@@ -1,20 +1,26 @@
 @startuml
 
-class Cliente <<boundary>> {
-  + iniciarPago()
+class Cliente <<entity>> {
+  + estadoPago : char
+  + iniciarPagoComanda()
 }
 
 class Comanda <<entity>> {
   + id: String
   + total: Decimal
   + estado: String
+  + procesarPagoComanda()
 }
 
 class Pago <<control>> {
   + identificadorC: String
   + metodo: String
   + estado: String
-  + procesar()
+  + elegirPlataforma()
+  + procesarPagoCuiner()
+  + procesarPagoRep()
+  + estadoPago()
+  
 }
 
 class Cuiner <<entity>> {
@@ -29,15 +35,19 @@ class "Tarjeta" <<boundary>> {
   - numero: String
   - caducidad: Data
   - cvv: Codigo
+  + procesarPagoT()
 }
 
 class PayPal <<boundary>> {
   + email: String
+  - contraseña : String
+  + procesarPagoPP()
+
 }
 
-interface PlataformaPago {
-  + autenticar()
-  + procesarTransaccion()
+class PlataformaPago <<boundary>> {
+  + procesado()
+ 
 }
 
 Cliente -> "1..*" Comanda : "Realiza"

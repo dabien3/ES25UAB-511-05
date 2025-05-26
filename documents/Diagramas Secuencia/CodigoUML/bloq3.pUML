@@ -1,0 +1,32 @@
+@startuml
+actor Cliente
+actor Cocinero
+
+participant GestorPedido
+participant Pedido
+participant Envio
+participant Repartidor
+participant ServicioMaps
+
+Cliente -> GestorPedido : crearPedido(cliente)
+GestorPedido -> Pedido : crearPedido()
+GestorPedido -> Pedido : iniciarEnvio()
+
+GestorPedido -> Envio : calcularCosto()
+Envio --> GestorPedido : costo
+
+GestorPedido -> Envio : esGratuito()
+Envio --> GestorPedido : true/false
+
+GestorPedido -> GestorPedido : asignarRepartidor(envio, repartidor)
+GestorPedido -> Repartidor : asignarSeguimiento(idSeguimiento)
+
+Cliente -> GestorPedido : obtenerLinkSeguimiento(pedido)
+GestorPedido -> Pedido : seguirProgreso()
+GestorPedido -> Pedido : getEnvio()
+GestorPedido -> Envio : getRepartidor()
+GestorPedido -> Repartidor : getIdSeguimiento()
+GestorPedido -> ServicioMaps : generarLink(idSeguimiento)
+ServicioMaps --> GestorPedido : link
+GestorPedido --> Cliente : link
+@enduml

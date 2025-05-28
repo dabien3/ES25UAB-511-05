@@ -8,22 +8,31 @@ boundary ListadoPlatos
 activate Cliente
 
 Cliente -> Pedido : consultarPedidoEntregado()
-Pedido -> Cliente : <<return>>
+activate Pedido
+Pedido --> Cliente : <<return>>
+deactivate Pedido
 
-Cliente -> Valoracion : valorarComanda(puntualidad, estado)
+Cliente -> Valoracion : valorarComanda()
 activate Valoracion
 
 Valoracion -> Cocinero : asociarValoracion()
+activate Cocinero
 Cocinero --> Valoracion : <<return>>
+deactivate Cocinero
 
 Valoracion -> ListadoPlatos : actualizarPosicionamiento()
+activate ListadoPlatos
 ListadoPlatos --> Valoracion : <<return>>
+deactivate ListadoPlatos
 
 Valoracion --> Cliente : <<return>>
 deactivate Valoracion
 
 Cliente -> ListadoPlatos : consultarValoraciones()
+activate ListadoPlatos
 ListadoPlatos --> Cliente : <<return>>
+deactivate ListadoPlatos
 
 deactivate Cliente
 @enduml
+

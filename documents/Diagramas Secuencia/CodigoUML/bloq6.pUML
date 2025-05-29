@@ -12,20 +12,34 @@ UsuarioRegistrado -> MenuPropuesto : proponerPlato()
 activate MenuPropuesto
 
 MenuPropuesto -> Chat : habilitarComunicacion()
+activate Chat
 Chat --> MenuPropuesto : <<return>>
+deactivate Chat
 
 MenuPropuesto --> UsuarioRegistrado : <<return>>
 deactivate MenuPropuesto
 
 UsuarioRegistrado -> Suscripcion : activarTarifaPlana()
+activate Suscripcion
 Suscripcion --> UsuarioRegistrado : <<return>>
+deactivate Suscripcion
 
 UsuarioRegistrado -> Comanda : pagarComanda()
 activate Comanda
 Comanda -> SistemaPuntos : generarPuntos()
+activate SistemaPuntos
 SistemaPuntos --> Comanda : <<return>>
+deactivate SistemaPuntos
 Comanda --> UsuarioRegistrado : <<return>>
 deactivate Comanda
+
+UsuarioRegistrado -> SistemaPuntos : consultarPuntos()
+activate SistemaPuntos
+SistemaPuntos --> UsuarioRegistrado : <<return>>
+deactivate SistemaPuntos
+
+deactivate UsuarioRegistrado
+@enduml
 
 UsuarioRegistrado -> SistemaPuntos : consultarPuntos()
 SistemaPuntos --> UsuarioRegistrado : <<return>>

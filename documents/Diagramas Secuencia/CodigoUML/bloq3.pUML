@@ -2,31 +2,59 @@
 actor Cliente
 actor Cocinero
 
-participant GestorPedido
-participant Pedido
-participant Envio
-participant Repartidor
-participant ServicioMaps
+control "Gestor Pedido" as GestorPedido
+entity "Pedido" as Pedido
+entity "Envio" as Envio
+entity "Repartidor" as Repartidor
+boundary "Servicio Maps" as ServicioMaps
 
-Cliente -> GestorPedido : crearPedido(cliente)
-GestorPedido -> Pedido : crearPedido()
-GestorPedido -> Pedido : iniciarEnvio()
+activate Cliente
+Cliente -> GestorPedido : crearPedido()
+activate GestorPedido
+
+GestorPedido -> Pedido : crear()
+activate Pedido
+Pedido --> GestorPedido : <<return>>
+deactivate Pedido
+
+GestorPedido -> Envio : iniciarEnvio()
+activate Envio
+Envio --> GestorPedido : <<return>>
+deactivate Envio
 
 GestorPedido -> Envio : calcularCosto()
-Envio --> GestorPedido : costo
+activate Envio
+Envio --> GestorPedido : <<return>>
+deactivate Envio
 
-GestorPedido -> Envio : esGratuito()
-Envio --> GestorPedido : true/false
+GestorPedido -> Repartidor : asignarSeguimiento()
+activate Repartidor
+Repartidor --> GestorPedido : <<return>>
+deactivate Repartidor
 
-GestorPedido -> GestorPedido : asignarRepartidor(envio, repartidor)
-GestorPedido -> Repartidor : asignarSeguimiento(idSeguimiento)
+Cliente -> GestorPedido : obtenerLinkSeguimiento()
 
-Cliente -> GestorPedido : obtenerLinkSeguimiento(pedido)
 GestorPedido -> Pedido : seguirProgreso()
-GestorPedido -> Pedido : getEnvio()
-GestorPedido -> Envio : getRepartidor()
-GestorPedido -> Repartidor : getIdSeguimiento()
-GestorPedido -> ServicioMaps : generarLink(idSeguimiento)
-ServicioMaps --> GestorPedido : link
-GestorPedido --> Cliente : link
+activate Pedido
+Pedido --> GestorPedido : <<return>>
+deactivate Pedido
+
+GestorPedido -> Envio : obtenerRepartidor()
+activate Envio
+Envio --> GestorPedido : <<return>>
+deactivate Envio
+
+GestorPedido -> Repartidor : obtenerIdSeguimiento()
+activate Repartidor
+Repartidor --> GestorPedido : <<return>>
+deactivate Repartidor
+
+GestorPedido -> ServicioMaps : generarLink()
+activate ServicioMaps
+ServicioMaps --> GestorPedido : <<return>>
+deactivate ServicioMaps
+
+GestorPedido --> Cliente : <<return>>
+deactivate GestorPedido
+deactivate Cliente
 @enduml

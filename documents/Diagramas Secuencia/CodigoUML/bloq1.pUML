@@ -1,32 +1,46 @@
 @startuml
 actor UsuarioNoRegistrado
-boundary "Shortcut Correo" as ShortcutCorreo
-entity "Usuario Registrado" as UsuarioRegistrado
-control "Perfil Usuario" as PerfilUsuario
+actor UsuarioRegistrado
+boundary "Interfaz Usuario" as InterfazUsuario
+control "Gestor Usuario" as GestorUsuario
+entity "data_UsuarioRegistrado" as data_UsuarioRegistrado
+entity "Perfil Usuario" as PerfilUsuario
 
-activate UsuarioNoRegistrado
-UsuarioNoRegistrado -> ShortcutCorreo : Registrarse()
-activate ShortcutCorreo
+UsuarioNoRegistrado -> InterfazUsuario : Registrarse()                                                         
+activate InterfazUsuario
+InterfazUsuario -> GestorUsuario : Registrarse()
+activate GestorUsuario
+GestorUsuario -> data_UsuarioRegistrado : create()
+activate data_UsuarioRegistrado
+data_UsuarioRegistrado -> GestorUsuario : <<return>>
+deactivate data_UsuarioRegistrado
+GestorUsuario -> InterfazUsuario : <<return>>
+deactivate GestorUsuario
+deactivate InterfazUsuario
 
-ShortcutCorreo --> UsuarioNoRegistrado : <<return>>
-deactivate UsuarioNoRegistrado
-
-ShortcutCorreo -> UsuarioRegistrado : create()
-activate UsuarioRegistrado
-
-UsuarioRegistrado --> ShortcutCorreo : <<return>>
-deactivate ShortcutCorreo
-
-UsuarioRegistrado -> PerfilUsuario : completa()
+UsuarioNoRegistrado -> InterfazUsuario : ActualizarPerfil()
+activate InterfazUsuario
+InterfazUsuario -> GestorUsuario : ActualizarPerfil()
+activate GestorUsuario
+GestorUsuario -> PerfilUsuario : ActualizarPerfil()
 activate PerfilUsuario
-PerfilUsuario --> UsuarioRegistrado : <<return>>
-
-UsuarioRegistrado -> PerfilUsuario : actualiza()
-PerfilUsuario --> UsuarioRegistrado : <<return>>
-
-UsuarioRegistrado -> PerfilUsuario : elimina()
-PerfilUsuario --> UsuarioRegistrado : <<return>>
+PerfilUsuario -> GestorUsuario : <<return>>
 deactivate PerfilUsuario
+GestorUsuario -> InterfazUsuario : <<return>>
+deactivate GestorUsuario
+deactivate InterfazUsuario
+
+UsuarioNoRegistrado -> InterfazUsuario : EliminarPerfil()
+activate InterfazUsuario
+InterfazUsuario -> GestorUsuario : EliminarPerfil()
+activate GestorUsuario
+GestorUsuario -> PerfilUsuario : EliminarPerfil()
+activate PerfilUsuario
+PerfilUsuario -> GestorUsuario : <<return>>
+deactivate PerfilUsuario
+GestorUsuario -> InterfazUsuario : <<return>>
+deactivate GestorUsuario
+deactivate InterfazUsuario
 
 deactivate UsuarioRegistrado
 @enduml

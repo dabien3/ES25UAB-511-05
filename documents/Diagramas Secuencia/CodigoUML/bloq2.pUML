@@ -1,58 +1,142 @@
 @startuml
 actor Cliente
 boundary Menu
-boundary Buscador
-entity Pedido
-control HistorialPedidos
+boundary interfazPedido
+control GestorMenu
+control GestorPedido
 entity Platos
-entity Cocineros
+entity Pedido
+entity data_cocinero
 
-activate Cliente
-activate Platos
-activate Cocineros
-activate HistorialPedidos
-
-Cliente -> Menu : consulta()
+Cliente -> Menu : consultaIngredientes()
 activate Menu
-
-Menu -> Platos : elegirVista() [si vista == platos]
-Menu -> Cocineros : elegirVista() [si vista == cocineros]
-Platos --> Menu : <<return>>
-Cocineros -> Menu : <<return>>
-Menu -> Menu : ordenarMenu()
-Menu -> Cliente : <<return>>
-deactivate Menu
-
-Cliente -> Buscador : usar()
-activate Buscador
-
-Buscador -> Platos : buscar()
-Buscador -> Cocineros : buscar()
-Platos -> Buscador : <<return>>
-Cocineros -> Buscador : <<return>>
-Buscador -> Cliente : <<return>>
-
-Cliente -> HistorialPedidos : consultar()
-HistorialPedidos -> Cliente : <<return>>
-
-Cliente -> Pedido : hacerPedido()
-activate Pedido
-loop añadirPlato
-   Pedido -> Platos : añadirPlato()
-   Platos -> Pedido : <<return>>
-end 
-Pedido -> Cliente : <<return>>
-Cliente -> Pedido : confirmarPedido()
-Pedido -> HistorialPedidos : añadirHistorial()
-HistorialPedidos -> Pedido : <<return>>
-Pedido -> Cliente : <<return>>
-deactivate Pedido
-
-
-deactivate HistorialPedidos
-deactivate Buscador
-deactivate Menu
-deactivate Cocineros
+Menu -> GestorMenu : consultaIngredientes()
+activate GestorMenu
+loop ingredientes
+GestorMenu -> Platos : getIngredientes()
+activate Platos
+Platos -> GestorMenu : <<return>>
 deactivate Platos
-deactivate Cliente
+end
+GestorMenu -> Menu : <<return>>
+deactivate Menu
+deactivate GestorMenu
+
+Cliente -> Menu : eliminaIngredientes(ingredientes)
+activate Menu
+Menu -> GestorMenu : eliminaIngredientes(ingredientes)
+activate GestorMenu
+loop ingredientes
+GestorMenu -> Platos : eliminaIngredientes(ing)
+activate Platos
+Platos -> GestorMenu : <<return>>
+deactivate Platos
+end
+GestorMenu -> Menu : <<return>>
+deactivate Menu
+deactivate GestorMenu
+
+Cliente -> Menu : consultaPlato(resAlimentaria)
+activate Menu
+Menu -> GestorMenu : consultaPlato(resAlimentaria)
+activate GestorMenu
+loop plato
+GestorMenu -> Platos : getPlato()
+activate Platos
+Platos -> GestorMenu : <<return>>
+deactivate Platos
+end
+GestorMenu -> Menu : <<return>>
+deactivate Menu
+deactivate GestorMenu
+
+Cliente -> Menu : ConsultaPlatosCocinero(cocinero)
+activate Menu
+Menu -> GestorMenu : ConsultaPlatosCocinero(cocinero)
+activate GestorMenu
+GestorMenu -> data_cocinero : getPlatosCocinero()
+activate data_cocinero
+loop plato
+data_cocinero -> Platos : getPlato()
+activate Platos
+Platos -> data_cocinero : <<return>>
+deactivate Platos
+end
+data_cocinero -> GestorMenu : <<return>>
+deactivate data_cocinero
+GestorMenu -> Menu : <<return>>
+deactivate GestorMenu
+deactivate Menu
+
+Cliente -> Menu : ConsultaDisponibilidadCocinero(cocinero)
+activate Menu
+Menu -> GestorMenu : ConsultaDisponibilidadCocinero(cocinero)
+activate GestorMenu
+GestorMenu -> data_cocinero : getDispo()
+activate data_cocinero
+data_cocinero -> GestorMenu : <<return>>
+deactivate data_cocinero
+GestorMenu -> Menu : <<return>>
+deactivate GestorMenu
+deactivate Menu
+
+Cliente -> Menu : Busqueda(nombre, tipo)
+Menu -> GestorMenu : Busqueda(nombre, tipo)
+alt tipo == plato
+GestorMenu -> Platos: getPlato(nombre)
+Platos -> GestorMenu : <<return>>
+else tipo == cocinero
+GestorMenu -> data_cocinero : getCocinero(nombre)
+data_cocinero -> GestorMenu : <<return>>
+end
+
+Cliente -> interfazPedido : verTiempoEntrega()
+activate interfazPedido
+interfazPedido -> GestorPedido : verTiempoEntrega()
+activate GestorPedido
+GestorPedido -> Pedido : getTiempoEntrega()
+activate Pedido
+Pedido -> GestorPedido : <<return>>
+deactivate Pedido
+GestorPedido -> interfazPedido : <<return>>
+deactivate GestorPedido
+deactivate interfazPedido
+
+Cliente -> interfazPedido : confirmarPedido()
+activate interfazPedido
+interfazPedido -> GestorPedido : confirmarPedido()
+activate GestorPedido
+GestorPedido -> Pedido : confirmarPedido()
+activate Pedido
+Pedido -> GestorPedido : <<return>>
+deactivate Pedido
+GestorPedido -> interfazPedido : <<return>>
+deactivate GestorPedido
+deactivate interfazPedido
+
+Cliente -> interfazPedido : repetirPedido()
+activate interfazPedido
+interfazPedido -> GestorPedido : repetirPedido()
+activate GestorPedido
+GestorPedido -> Pedido : repetirPedido()
+activate Pedido
+Pedido -> GestorPedido : <<return>>
+deactivate Pedido
+GestorPedido -> interfazPedido : <<return>>
+deactivate GestorPedido
+deactivate interfazPedido
+
+Cliente -> interfazPedido : consultarHistorialPedido()
+activate interfazPedido
+interfazPedido -> GestorPedido : consultarHistorialPedido()
+activate GestorPedido
+loop pedidos
+GestorPedido -> Pedido : getPedidos()
+activate Pedido
+Pedido -> GestorPedido : <<return>>
+deactivate Pedido
+end
+GestorPedido -> interfazPedido : <<return>>
+deactivate GestorPedido
+deactivate interfazPedido
 @enduml

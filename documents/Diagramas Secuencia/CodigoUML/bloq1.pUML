@@ -10,6 +10,7 @@ UsuarioNoRegistrado -> InterfazUsuario : Registrarse()
 activate InterfazUsuario
 InterfazUsuario -> GestorUsuario : Registrarse()
 activate GestorUsuario
+alt correcto
 GestorUsuario -> data_UsuarioRegistrado : create()
 activate data_UsuarioRegistrado
 data_UsuarioRegistrado -> GestorUsuario : <<return>>
@@ -17,6 +18,9 @@ deactivate data_UsuarioRegistrado
 GestorUsuario -> InterfazUsuario : <<return>>
 deactivate GestorUsuario
 deactivate InterfazUsuario
+else
+GestorUsuario -> InterfazUsuario : error
+end
 
 UsuarioNoRegistrado -> InterfazUsuario : ActualizarPerfil()
 activate InterfazUsuario

@@ -1,60 +1,145 @@
 @startuml
 actor Cliente
 actor Cocinero
+actor Repartidor
 
-control "Gestor Pedido" as GestorPedido
+boundary "PantallaCliente" as UICliente
+boundary "PantallaCocinero" as UICocinero
+boundary "PantallaRepartidor" as UIRepartidor
+
+control "GestorPedido" as GestorPedido
 entity "Pedido" as Pedido
 entity "Envio" as Envio
-entity "Repartidor" as Repartidor
-boundary "Servicio Maps" as ServicioMaps
+boundary "ServicioMaps" as ServicioMaps
 
 activate Cliente
-Cliente -> GestorPedido : crearPedido()
+Cliente -> UICliente : verOpcionesEntrega()
+activate UICliente
+UICliente -> GestorPedido : obtenerOpcionesEntrega()
+activate GestorPedido
+GestorPedido -> Pedido : verificarDisponibilidad()
+activate Pedido
+Pedido --> GestorPedido : return
+deactivate Pedido
+GestorPedido --> UICliente : mostrarOpciones()
+deactivate GestorPedido
+UICliente --> Cliente : return
+deactivate UICliente
+
+Cliente -> UICliente : seleccionarOpcion(opcion)
+activate UICliente
+UICliente -> GestorPedido : opcionSeleccionada(opcion)
 activate GestorPedido
 
-GestorPedido -> Pedido : crear()
+alt Repartidor
+    GestorPedido -> Pedido : asociarRepartidor()
+    activate Pedido
+    Pedido --> GestorPedido : <<return>>
+    deactivate Pedido
+    
+    GestorPedido -> Envio : costo = calcularCosto(dirección)
+    activate Envio
+    Envio --> GestorPedido : return
+    deactivate Envio
+    
+    GestorPedido --> UICliente : mostrarCosto(costo)
+    deactivate GestorPedido
+    UICliente --> Cliente : mostrarCosto(costo)
+    deactivate UICliente
+    
+    Cliente -> UICliente : confirmarEntrega()
+    activate UICliente
+    UICliente -> GestorPedido : confirmarEntrega()
+    activate GestorPedido
+    
+    GestorPedido -> Repartidor : asignarPedido()
+    activate Repartidor
+    Repartidor -> UIRepartidor : aceptarPedido()
+    activate UIRepartidor
+    UIRepartidor -> GestorPedido : confirmarAsignacion()
+    deactivate UIRepartidor
+    
+    GestorPedido -> ServicioMaps : link = generarSeguimiento()
+    activate ServicioMaps
+    ServicioMaps --> GestorPedido : return
+    deactivate ServicioMaps
+    
+    GestorPedido --> UICliente : mostrarLink(link)
+    deactivate GestorPedido
+    UICliente --> Cliente : mostrarLink(link)
+    deactivate UICliente
+    deactivate Repartidor
+
+else Cocinero
+    GestorPedido -> Pedido : asociarCocinero()
+    activate Pedido
+    Pedido --> GestorPedido : return
+    deactivate Pedido
+    
+    GestorPedido -> Envio : costo = calcularCosto(dirección)
+    activate Envio
+    Envio --> GestorPedido : return
+    deactivate Envio
+    
+    GestorPedido --> UICliente : mostrarCosto(costo)
+    deactivate GestorPedido
+    UICliente --> Cliente : mostrarCosto(costo)
+    deactivate UICliente
+    
+    Cliente -> UICliente : confirmarEntrega()
+    activate UICliente
+    UICliente -> GestorPedido : confirmarEntrega()
+    activate GestorPedido
+    
+    activate Cocinero
+    Cocinero -> UICocinero : aceptarEntrega()
+    activate UICocinero
+    UICocinero -> GestorPedido : confirmarAceptacion()
+    deactivate UICocinero
+    
+    GestorPedido -> ServicioMaps : link = generarSeguimiento()
+    activate ServicioMaps
+    ServicioMaps --> GestorPedido : return
+    deactivate ServicioMaps
+    
+    GestorPedido --> UICliente : mostrarLink(link)
+    deactivate GestorPedido
+    UICliente --> Cliente : mostrarLink(link)
+    deactivate UICliente
+    deactivate Cocinero
+
+else Recogida
+    GestorPedido -> Pedido : marcarParaRecogida()
+    activate Pedido
+    Pedido --> GestorPedido : return
+    deactivate Pedido
+    
+    GestorPedido -> Envio : setCostoGratis()
+    activate Envio
+    Envio --> GestorPedido : return
+    deactivate Envio
+    
+    GestorPedido --> UICliente : mostrarConfirmacionRecogida()
+    deactivate GestorPedido
+    UICliente --> Cliente : mostrarConfirmacionRecogida()
+    deactivate UICliente
+    
+    GestorPedido -> UICocinero : notificarRecogida()
+    activate UICocinero
+    UICocinero --> Cocinero : notificarRecogida()
+    deactivate UICocinero
+end
+
+
+activate GestorPedido
+GestorPedido -> Pedido : actualizarEstado()
 activate Pedido
-Pedido --> GestorPedido : <<return>>
+Pedido --> GestorPedido : estadoActualizado
 deactivate Pedido
-
-GestorPedido -> Envio : iniciarEnvio()
-activate Envio
-Envio --> GestorPedido : <<return>>
-deactivate Envio
-
-GestorPedido -> Envio : calcularCosto()
-activate Envio
-Envio --> GestorPedido : <<return>>
-deactivate Envio
-
-GestorPedido -> Repartidor : asignarSeguimiento()
-activate Repartidor
-Repartidor --> GestorPedido : <<return>>
-deactivate Repartidor
-
-Cliente -> GestorPedido : obtenerLinkSeguimiento()
-
-GestorPedido -> Pedido : seguirProgreso()
-activate Pedido
-Pedido --> GestorPedido : <<return>>
-deactivate Pedido
-
-GestorPedido -> Envio : obtenerRepartidor()
-activate Envio
-Envio --> GestorPedido : <<return>>
-deactivate Envio
-
-GestorPedido -> Repartidor : obtenerIdSeguimiento()
-activate Repartidor
-Repartidor --> GestorPedido : <<return>>
-deactivate Repartidor
-
-GestorPedido -> ServicioMaps : generarLink()
-activate ServicioMaps
-ServicioMaps --> GestorPedido : <<return>>
-deactivate ServicioMaps
-
-GestorPedido --> Cliente : <<return>>
+GestorPedido --> UICliente : notificarConfirmacionFinal()
 deactivate GestorPedido
+activate UICliente
+UICliente --> Cliente : notificarConfirmacionFinal()
+deactivate UICliente
 deactivate Cliente
 @enduml

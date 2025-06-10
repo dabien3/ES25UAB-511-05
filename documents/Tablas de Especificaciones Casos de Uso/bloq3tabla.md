@@ -4,7 +4,7 @@
 
 | Campo                     | Detalle                                                                 |
 |---------------------------|-------------------------------------------------------------------------|
-| **Num Versión**           | 1.0                                                                     |
+| **Num Versión**           | 2.0                                                                     |
 | **Fecha**                 | 09/04/2025                                                              |
 | **Autores**               | Yang Chen, Liying Sun, Daniel Alberto Vaca Davalos, Nour Kobbi          |
 | **Descripción**           | En este caso de uso se muestra cómo el cliente interactúa con las distintas opciones de envío del pedido. |

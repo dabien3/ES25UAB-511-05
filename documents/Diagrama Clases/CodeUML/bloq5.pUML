@@ -1,13 +1,12 @@
 @startuml
 
-
 class Cliente <<entity>> {
   +verValoraciones() : void
   +realizarValoracion() : void
   +verHistorialComandas() : List
 }
 
-class "data_Valoracion" as Valoracion <<entity>> {
+class Valoracion <<entity>> {
   - puntuacionPuntualidad : int
   - puntuacionCalidad : int
   - comentario : String
@@ -15,33 +14,30 @@ class "data_Valoracion" as Valoracion <<entity>> {
   + mostrarComentario() : String
 }
 
-class "data_Comanda" as Comanda <<entity>> {
+class Comanda <<entity>> {
   - id : int
   - fecha : Date
   - platos : List
   + obtenerResumen() : String
 }
 
-class "data_Cocinero" as Cocinero <<entity>> {
+class Cocinero <<entity>> {
   - id : int
   - nombre : String
   + obtenerValoracion() : float
   + mostrarPlatos() : List
 }
 
-
 class "Interfaz Valoracion" as InterfazValoracion <<boundary>> {
   +verValoraciones() : void
   +realizarValoracion(puntualidad: int, estado: int, comentario: String) : void
 }
-
 
 class "Gestor Valoracion" as GestorValoracion <<control>> {
   +crearValoracion(puntualidad: int, estado: int, comentario: String) : void
   +asociarCocinero(comanda: Comanda) : void
   +obtenerValoraciones() : List
 }
-
 
 Cliente --> InterfazValoracion : usa >
 InterfazValoracion --> GestorValoracion

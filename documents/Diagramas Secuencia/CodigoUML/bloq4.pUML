@@ -1,10 +1,12 @@
 @startuml
 actor Cliente
-participant Comanda
-control Pago
-boundary PlataformaPago
-boundary Tarjeta
-boundary PayPal
+control GestorComanda
+boundary InterfazComanda
+entity Comanda
+entity Pago
+entity PlataformaPago
+entity Tarjeta
+entity PayPal
 entity Cuiner
 entity Repartidor
 
@@ -33,12 +35,12 @@ deactivate PlataformaPago
 
 Pago -> Cuiner : procesarPagoCuiner()
 activate Cuiner
-return ok
+return retorno
 deactivate Cuiner
 
 Pago -> Repartidor : procesarPagoRep()
 activate Repartidor
-return ok
+return retorno
 deactivate Repartidor
 
 PlataformaPago -> Pago : estadoPago()

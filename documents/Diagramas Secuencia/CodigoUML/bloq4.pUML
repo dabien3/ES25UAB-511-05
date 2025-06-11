@@ -1,7 +1,7 @@
 @startuml
 actor Cliente
-control GestorComanda
 boundary InterfazComanda
+control GestorComanda
 entity Comanda
 entity Pago
 entity PlataformaPago
@@ -9,47 +9,64 @@ entity Tarjeta
 entity PayPal
 entity Cuiner
 entity Repartidor
-
 activate Cliente
-Cliente -> Comanda : iniciarPagoComanda()
+Cliente -> InterfazComanda : iniciarPagoComanda()
+activate InterfazComanda
+InterfazComanda -> GestorComanda : iniciarPagoComanda()
+activate GestorComanda
+GestorComanda -> Comanda : iniciarPagoComanda()
 activate Comanda
-
 Comanda -> Pago : procesarPagoComanda()
 activate Pago
-
-Pago -> PlataformaPago : elegirPlataforma()
-activate PlataformaPago
-
-alt Metodo == Tarjeta
-    PlataformaPago -> Tarjeta : procesarPagoT()
-    activate Tarjeta
-    return procesado()
-    deactivate Tarjeta
-else Metodo == PayPal
-    PlataformaPago -> PayPal : procesarPagoPP()
-    activate PayPal
-    return procesado()
-    deactivate PayPal
-end
-deactivate PlataformaPago
-
+loop Mientras validarDatos() == false
+ Pago -> PlataformaPago : elegirPlataforma(metodo)
+    activate PlataformaPago
+ alt metodo == "Tarjeta"
+        PlataformaPago -> Tarjeta : procesarPagoT()
+        activate Tarjeta
+        alt Tarjeta.validarDatos() == false
+            Tarjeta --> PlataformaPago : error
+            PlataformaPago --> Pago : error
+            GestorComanda -> InterfazComanda : Error: Datos de tarjeta incorrectos
+            deactivate Tarjeta
+else Tarjeta.validarDatos() == true
+            Tarjeta --> PlataformaPago : procesado()
+            PlataformaPago --> Pago : procesado()
+            deactivate Tarjeta
+            deactivate PlataformaPago
+        end
+    else metodo == "PayPal"
+        PlataformaPago -> PayPal : procesarPagoPP()
+        activate PayPal
+        alt PayPal.validarDatos() == false
+            PayPal --> PlataformaPago : error
+            PlataformaPago --> Pago : error
+            GestorComanda -> InterfazComanda : Error: Datos de PayPal incorrectos
+            deactivate PayPal
+        else PayPal.validarDatos() == true
+            PayPal --> PlataformaPago : procesado()
+            PlataformaPago --> Pago : procesado()
+            deactivate PayPal
+            deactivate PlataformaPago
+ end
+ end
+end loop
 Pago -> Cuiner : procesarPagoCuiner()
 activate Cuiner
-return retorno
+Cuiner --> Pago : ok
 deactivate Cuiner
-
 Pago -> Repartidor : procesarPagoRep()
 activate Repartidor
-return retorno
+Repartidor --> Pago : ok
 deactivate Repartidor
-
-PlataformaPago -> Pago : estadoPago()
-
+Pago -> PlataformaPago : estadoPago()
+PlataformaPago --> Pago : estado
+Pago -> Comanda : estadoPago()
 deactivate Pago
-
-Comanda <- Pago : estadoPago()
 deactivate Comanda
-
-Cliente <- Comanda : pago completado
+GestorComanda -> InterfazComanda : pago completado
+InterfazComanda -> Cliente : pago completado
+deactivate GestorComanda
+deactivate InterfazComanda
 deactivate Cliente
 @enduml

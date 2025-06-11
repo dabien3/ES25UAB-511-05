@@ -8,6 +8,7 @@ entity "Cocinero" as Cocinero
 
 Cliente -> InterfazValoracion : realizarValoracion(puntualidad, estado, comentario)
 activate InterfazValoracion
+
 InterfazValoracion -> GestorValoracion : crearValoracion(puntualidad, estado, comentario)
 activate GestorValoracion
 
@@ -26,7 +27,7 @@ activate Valoracion
 Valoracion --> GestorValoracion : OK
 deactivate Valoracion
 
-GestorValoracion -> InterfazValoracion : confirmación
+GestorValoracion --> InterfazValoracion : confirmación
 deactivate GestorValoracion
 
 InterfazValoracion --> Cliente : confirmación
@@ -34,14 +35,20 @@ deactivate InterfazValoracion
 
 Cliente -> InterfazValoracion : verValoraciones()
 activate InterfazValoracion
+
 InterfazValoracion -> GestorValoracion : obtenerValoraciones()
 activate GestorValoracion
+
 GestorValoracion -> Valoracion : consultar()
 activate Valoracion
-Valoracion --> GestorValoracion : listaValoraciones
+loop por cada valoración
+Valoracion --> GestorValoracion : datosValoracion
+end
 deactivate Valoracion
+
 GestorValoracion --> InterfazValoracion : listaValoraciones
 deactivate GestorValoracion
+
 InterfazValoracion --> Cliente : listaValoraciones
 deactivate InterfazValoracion
 

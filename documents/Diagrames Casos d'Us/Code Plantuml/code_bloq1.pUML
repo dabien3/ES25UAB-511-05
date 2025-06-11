@@ -30,9 +30,11 @@ cl --> R6
 cu --> R6
 r --> R6
 n --> R8
+cl --> R7
+cu --> R7
+r --> R7
 
 
-R3 .> R4: <<extend>>
-R6 .> R7 : <<extend>>
+R3 .> R4: <<include>>
 R6 .> R9 : <<extend>>
 @enduml

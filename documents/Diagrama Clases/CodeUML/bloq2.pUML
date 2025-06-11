@@ -1,42 +1,61 @@
 @startuml
 
-class Cliente <<entity>>
-{
-   +restriccionesAlimentarias : string
-   +elegirVista() : void   
-   +buscarCocineroOPlato() : void
-   -historial : Pedido
-   +mostrarHistorial() : Pedido
-}
-class Cocinero <<entity>>
+class "data_Cocinero" as Cocinero <<entity>>
 {
    -disponibilidad : boolean
    -horaDisponibilidad : string
    +mostrarDisponibilidad() : boolean, string
    +mostrarPlatos() : string
+   +getPlatos() : Platos
 }
 class Pedido <<entity>>
 {
+   -tiempoEntrega : string
+   +getTiempoEntrega() : string
    +confirmarPedido() : boolean
 }
 class Platos <<entity>>
 {
-   +ingredientes : string
-   -tiempoEstimadoEntrega : string
-   +priorizarPlatos() : void
-   +mostrarTiempoEstimadoEntrega() : string
+   -ingredientes : string
    +mostrarIngredientes() : string
    +modificarPlato() : void
+   +getIngredientes() : string
 }
 
-class Menú <<comunicació>>
-class Buscador <<comunicació>>
-class HistorialPedidos <<control>>
-Pedido --> Cliente
-Pedido --> Cocinero
-Platos --> Cliente
-Platos --> Cocinero
-HistorialPedidos "*" -- "1" Cliente : pertany
-Menú "1" o-- "*" Platos
-Buscador --> Cliente
+class Menú <<boundary>>
+{
+   +consultaIngredientes() : string
+   +eliminaIngredientes() : void
+   +consultaPlato(restriccionAlimentaria) : Plato
+   +consultaPlatosCocinero(cocinero) : Plato
+   +consultaDisponibilidadCocinero(cocinero) : boolean
+   +busqueda(nombre,tipo) : Plato o Cocinero
+}
+class interfazPedido <<boundary>>
+{
+   +verTiempoEntrega() : string
+   +confirmarPedido() : void
+   +repetirPedido() : void
+   +consultarHistorialPedidos() : void
+}
+class gestorPedido <<control>>
+{
+   +getTiempoEntrega() : string
+   +confirmarPedido() : void
+   +repetirPedido() : void
+   +getPedidos() : Pedido
+}
+class gestorMenu <<control>>
+{
+   +getIngredientes() : string
+   +eliminaIngredientes() : void
+   +getPlato() : Plato
+   +getPlatosCocinero() : Plato
+   +getDispo() : boolean
+}
+Pedido "n"--"1" gestorPedido
+gestorPedido "1"-- "1" interfazPedido
+Platos "n" -- "1" Cocinero
+Menú "1"--"1" gestorMenu
+gestorMenu "1"--"n" Platos
 @enduml

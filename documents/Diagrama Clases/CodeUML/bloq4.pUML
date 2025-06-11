@@ -2,25 +2,25 @@
 
 class Cliente <<entity>> {
   + estadoPago : char
-  + iniciarPagoComanda()
+  + iniciarPagoComanda() : void
 }
 
 class Comanda <<entity>> {
   + id: String
   + total: Decimal
   + estado: String
-  + procesarPagoComanda()
+  + procesarPagoComanda() : void
 }
 
 class Pago <<control>> {
   + identificadorC: String
   + metodo: String
   + estado: String
-  + elegirPlataforma()
-  + procesarPagoCuiner()
-  + procesarPagoRep()
-  + estadoPago()
-  
+  + elegirPlataforma() : void
+  + procesarPagoCuiner() : void
+  + procesarPagoRep() : void
+  + estadoPago() : String
+  + validarMetodoPago() : bool
 }
 
 class Cuiner <<entity>> {
@@ -31,34 +31,34 @@ class Repartidor <<entity>> {
   + compteBancari: String
 }
 
-class "Tarjeta" <<boundary>> {
+class Tarjeta <<boundary>> {
   - numero: String
-  - caducidad: Data
+  - caducidad: Date
   - cvv: Codigo
-  + procesarPagoT()
+  + procesarPagoT() : void
+  + validarDatos() : bool
 }
 
 class PayPal <<boundary>> {
   + email: String
   - contraseña : String
-  + procesarPagoPP()
-
+  + procesarPagoPP() : void
+  + validarDatos() : bool
 }
 
 class PlataformaPago <<boundary>> {
-  + procesado()
- 
+  + procesado() : void
+  + validarPlataforma() : bool
 }
 
-Cliente -> "1..*" Comanda : "Realiza"
 
+Cliente "1" --> "1..*" Comanda 
 Comanda *-- "1" Pago 
-Pago ..> PlataformaPago : "Usa" 
-
-Pago o--> Cuiner : "Transfiere su %"
-Pago o--> Repartidor : "Transfiere su %"
-
+Pago ..> PlataformaPago 
+Pago o--> Cuiner 
+Pago o--> Repartidor 
 Tarjeta -up-|> PlataformaPago 
-PayPal -up-|> PlataformaPago 
+PayPal -up-|> PlataformaPago
+
 
 @enduml

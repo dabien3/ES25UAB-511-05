@@ -20,7 +20,6 @@ class Pago <<control>> {
   + procesarPagoCuiner() : void
   + procesarPagoRep() : void
   + estadoPago() : String
-  + validarMetodoPago() : bool
 }
 
 class Cuiner <<entity>> {
@@ -48,7 +47,6 @@ class PayPal <<boundary>> {
 
 class PlataformaPago <<boundary>> {
   + procesado() : void
-  + validarPlataforma() : bool
 }
 
 
@@ -57,8 +55,8 @@ Comanda *-- "1" Pago
 Pago ..> PlataformaPago 
 Pago o--> Cuiner 
 Pago o--> Repartidor 
-Tarjeta -up-|> PlataformaPago 
-PayPal -up-|> PlataformaPago
+Tarjeta --|> PlataformaPago 
+PayPal --|> PlataformaPago
 
 
 @enduml

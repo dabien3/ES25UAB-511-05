@@ -1,38 +1,56 @@
 @startuml
 actor Cliente
-entity Pedido
-control Valoracion
-entity Cocinero
-boundary ListadoPlatos
+boundary "Interfaz Valoracion" as InterfazValoracion
+control "Gestor Valoracion" as GestorValoracion
+entity "Valoracion" as Valoracion
+entity "Comanda" as Comanda
+entity "Cocinero" as Cocinero
 
-activate Cliente
+Cliente -> InterfazValoracion : realizarValoracion(puntualidad, estado, comentario)
+activate InterfazValoracion
 
-Cliente -> Pedido : consultarPedidoEntregado()
-activate Pedido
-Pedido --> Cliente : <<return>>
-deactivate Pedido
+InterfazValoracion -> GestorValoracion : crearValoracion(puntualidad, estado, comentario)
+activate GestorValoracion
 
-Cliente -> Valoracion : valorarComanda()
-activate Valoracion
+GestorValoracion -> Comanda : obtenerResumen()
+activate Comanda
+Comanda --> GestorValoracion : resumen
+deactivate Comanda
 
-Valoracion -> Cocinero : asociarValoracion()
+GestorValoracion -> Cocinero : obtenerCocineroComanda()
 activate Cocinero
-Cocinero --> Valoracion : <<return>>
+Cocinero --> GestorValoracion : cocinero
 deactivate Cocinero
 
-Valoracion -> ListadoPlatos : actualizarPosicionamiento()
-activate ListadoPlatos
-ListadoPlatos --> Valoracion : <<return>>
-deactivate ListadoPlatos
-
-Valoracion --> Cliente : <<return>>
+GestorValoracion -> Valoracion : crear(puntualidad, estado, comentario, cocinero)
+activate Valoracion
+Valoracion --> GestorValoracion : OK
 deactivate Valoracion
 
-Cliente -> ListadoPlatos : consultarValoraciones()
-activate ListadoPlatos
-ListadoPlatos --> Cliente : <<return>>
-deactivate ListadoPlatos
+GestorValoracion --> InterfazValoracion : confirmación
+deactivate GestorValoracion
 
-deactivate Cliente
+InterfazValoracion --> Cliente : confirmación
+deactivate InterfazValoracion
+
+Cliente -> InterfazValoracion : verValoraciones()
+activate InterfazValoracion
+
+InterfazValoracion -> GestorValoracion : obtenerValoraciones()
+activate GestorValoracion
+
+GestorValoracion -> Valoracion : consultar()
+activate Valoracion
+loop por cada valoración
+Valoracion --> GestorValoracion : datosValoracion
+end
+deactivate Valoracion
+
+GestorValoracion --> InterfazValoracion : listaValoraciones
+deactivate GestorValoracion
+
+InterfazValoracion --> Cliente : listaValoraciones
+deactivate InterfazValoracion
+
 @enduml
 

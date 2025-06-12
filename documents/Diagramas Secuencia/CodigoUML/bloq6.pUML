@@ -1,48 +1,67 @@
 @startuml
-actor UsuarioRegistrado
-control MenuPropuesto
-boundary Chat
-control SistemaPuntos
-entity Comanda
+
+actor Cliente
+boundary InterfazFuncionalidades
+control GestorExtras
+entity PlatoPropuesto
+entity MenuPropuesto
+entity Chat
 entity Suscripcion
+entity Punto
+entity Comanda
 
-activate UsuarioRegistrado
-
-UsuarioRegistrado -> MenuPropuesto : proponerPlato()
+Cliente -> InterfazFuncionalidades : proponerPlato(desc, ingredientes)
+activate InterfazFuncionalidades
+InterfazFuncionalidades -> GestorExtras : proponerPlato(desc, ingredientes)
+activate GestorExtras
+GestorExtras -> PlatoPropuesto : crear(desc, ingredientes)
+activate PlatoPropuesto
+PlatoPropuesto -> MenuPropuesto : agregarPlato()
 activate MenuPropuesto
-
 MenuPropuesto -> Chat : habilitarComunicacion()
 activate Chat
-Chat --> MenuPropuesto : <<return>>
+Chat --> MenuPropuesto : OK
 deactivate Chat
-
-MenuPropuesto --> UsuarioRegistrado : <<return>>
 deactivate MenuPropuesto
+deactivate PlatoPropuesto
+GestorExtras --> InterfazFuncionalidades : confirmación
+deactivate GestorExtras
+InterfazFuncionalidades --> Cliente : confirmación
+deactivate InterfazFuncionalidades
 
-UsuarioRegistrado -> Suscripcion : activarTarifaPlana()
+Cliente -> InterfazFuncionalidades : activarSuscripcion()
+activate InterfazFuncionalidades
+InterfazFuncionalidades -> GestorExtras : activarSuscripcion()
+activate GestorExtras
+GestorExtras -> Suscripcion : activar()
 activate Suscripcion
-Suscripcion --> UsuarioRegistrado : <<return>>
+Suscripcion --> GestorExtras : OK
 deactivate Suscripcion
+GestorExtras --> InterfazFuncionalidades : confirmación
+deactivate GestorExtras
+InterfazFuncionalidades --> Cliente : confirmación
+deactivate InterfazFuncionalidades
 
-UsuarioRegistrado -> Comanda : pagarComanda()
+Cliente -> Comanda : realizarPago()
 activate Comanda
-Comanda -> SistemaPuntos : generarPuntos()
-activate SistemaPuntos
-SistemaPuntos --> Comanda : <<return>>
-deactivate SistemaPuntos
-Comanda --> UsuarioRegistrado : <<return>>
+Comanda -> Punto : generarPuntos()
+activate Punto
+Punto --> Comanda : puntos
+deactivate Punto
+Comanda --> Cliente : confirmación
 deactivate Comanda
 
-UsuarioRegistrado -> SistemaPuntos : consultarPuntos()
-activate SistemaPuntos
-SistemaPuntos --> UsuarioRegistrado : <<return>>
-deactivate SistemaPuntos
+Cliente -> InterfazFuncionalidades : consultarPuntos()
+activate InterfazFuncionalidades
+InterfazFuncionalidades -> GestorExtras : consultarPuntos()
+activate GestorExtras
+GestorExtras -> Punto : obtenerCantidad()
+activate Punto
+Punto --> GestorExtras : cantidad
+deactivate Punto
+GestorExtras --> InterfazFuncionalidades : cantidad
+deactivate GestorExtras
+InterfazFuncionalidades --> Cliente : cantidad
+deactivate InterfazFuncionalidades
 
-deactivate UsuarioRegistrado
-@enduml
-
-UsuarioRegistrado -> SistemaPuntos : consultarPuntos()
-SistemaPuntos --> UsuarioRegistrado : <<return>>
-
-deactivate UsuarioRegistrado
 @enduml

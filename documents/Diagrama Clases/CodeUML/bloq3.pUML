@@ -1,66 +1,92 @@
 @startuml
-class Usuario <<entity>> {
+class dataUsuario <<entity>> {
+    -id: string
     -nombre: string
+    -email: string
+    -telefono: string
 }
 
-class Cliente <<entity>> {
+class dataCliente <<entity>> {
     -direccion: string
-    +consultarPedido(): Pedido
+    -metodoPago: string
+    +verOpcionesEntrega(): void
+    +seleccionarOpcion(opcion: string): void
+    +confirmarEntrega(): void
 }
 
-class Cocinero <<entity>> {
-    -direccion: string
-    +prepararPedido(pedido: Pedido): void
+class dataCocinero <<entity>> {
+    -especialidad: string
+    -disponible: boolean
+    +aceptarEntrega(): void
 }
 
-class Repartidor <<entity>> {
-    -idSeguimiento : string
-    +asignarSeguimiento(idSeguimiento : string): void
-    +eliminarSeguimiento(): void
-
+class dataRepartidor <<entity>> {
+    -vehiculo: string
+    -activo: boolean
+    -ubicacionActual: string
+    +aceptarPedido(): void
 }
 
-Usuario <|-- Cliente
-Usuario <|-- Cocinero
-Usuario <|-- Repartidor
+dataUsuario <|-- dataCliente
+dataUsuario <|-- dataCocinero
+dataUsuario <|-- dataRepartidor
 
 class Pedido <<entity>> {
-    -id: int
+    -id: string
     -estado: string
-    -total: float
-    +iniciarEnvio(): void
-    +seguirProgreso(): void
+    -items: string[]
+    -tipoEntrega: string
+    +verificarDisponibilidad(): string[]
+    +asociarRepartidor(): void
+    +asociarCocinero(): void
+    +marcarParaRecogida(): void
+    +actualizarEstado(): void
 }
 
 class Envio <<entity>> {
-    -tipo: string
+    -id: string
     -costo: float
-    +calcularCosto(): float
-    +esGratuito(): bool
+    -distancia: float
+    +calcularCosto(direccion: string): float
+    +setCostoGratis(): void
+}
+
+interface IUICliente <<boundary>> {
+    +mostrarOpciones(opciones: string[]): void
+    +mostrarCosto(costo: float): void
+    +mostrarLink(link: string): void
+    +mostrarConfirmacionRecogida(): void
+    +notificarConfirmacionFinal(): void
+}
+
+interface IUICocinero <<boundary>> {
+    +notificarRecogida(): void
+}
+
+interface IUIRepartidor <<boundary>> {
+    +confirmarAsignacion(): void
 }
 
 class GestorPedido <<control>> {
-    +crearPedido(cliente: Cliente): Pedido
-    +asignarCocinero(cocinero: Cocinero, pedido: Pedido): void
-    +asignarRepartidor(envio: Envio, repartidor: Repartidor): void
-    +obtenerLinkSeguimiento(pedido: Pedido): string
+    +obtenerOpcionesEntrega(): string[]
+    +opcionSeleccionada(opcion: string): void
+    +confirmarEntrega(): void
+    +generarSeguimiento(): string
 }
 
 class ServicioMaps <<boundary>> {
-    +generarLink(idSeguimiento : string): string
+    +generarSeguimiento(): string
 }
 
+dataCliente "1" -- "0..*" Pedido
+Pedido "1" *-- "1" Envio
+Envio "1" --> "0..1" dataRepartidor
+Pedido "1" --> "0..1" dataCocinero
 
-Cliente "1" -- "0..*" Pedido : realiza
-Pedido "1" --> "1" Cliente : pertenece a
-Cocinero "1" -- "0..*" Pedido : prepara
-Pedido "1" --> "1" Cocinero : asignado a
-Pedido "1" *-- "1" Envio : contiene
-Envio "1" --> "1" Repartidor : entregadoPor
 GestorPedido --> Pedido
-GestorPedido --> Cliente
-GestorPedido --> Cocinero
 GestorPedido --> Envio
-GestorPedido --> Repartidor
-GestorPedido --> ServicioMaps : usa
+GestorPedido --> IUICliente
+GestorPedido --> IUICocinero
+GestorPedido --> IUIRepartidor
+GestorPedido --> ServicioMaps
 @enduml

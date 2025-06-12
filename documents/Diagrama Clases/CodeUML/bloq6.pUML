@@ -1,66 +1,70 @@
 @startuml
 
-class Usuario {
-  - id : int
-  - nombre : String
-  - correo : String
-  + proponerPlato() : void
-  + comunicarseConCocinero() : void
-  + activarSuscripcion() : void
-  + consultarPuntos() : int
-  + realizarPedido() : void
-}
-
-class PlatoPropuesto {
+class PlatoPropuesto <<entity>> {
   - descripcion : String
   - ingredientes : String
   + mostrarDescripcion() : String
   + editarPlato() : void
 }
 
-class MenuPropuesto {
+class MenuPropuesto <<entity>> {
   - id : int
   - nombreMenu : String
-  + agregarPlato() : void
   + mostrarMenu() : String
 }
 
-class Chat {
+class Chat <<entity>> {
   - mensajes : String
-  + enviarMensaje(String) : void
-  + verConversacion() : String
+  + enviarMensaje(msg: String) : void
 }
 
-class Suscripcion {
-  - tarifaPlana : boolean
+class Suscripcion <<entity>> {
+  - activa : boolean
   - fechaInicio : Date
   - fechaFin : Date
   + estaActiva() : boolean
-  + calcularDuracion() : int
 }
 
-class Punto {
+class Punto <<entity>> {
   - cantidad : int
   - descripcion : String
   + obtenerCantidad() : int
-  + canjear() : void
 }
 
-class Comanda {
+class Comanda <<entity>> {
   - id : int
-  - fecha : Date
   - total : float
   + generarPuntos() : int
-  + mostrarResumen() : String
 }
 
-Usuario "1" o-- "*" PlatoPropuesto : propone >
-PlatoPropuesto "1" o-- "1" MenuPropuesto : aparece en >
-MenuPropuesto "1" o-- "1" Chat : permite >
-Usuario "1" o-- "0..1" Suscripcion : tiene >
-Usuario "1" o-- "*" Punto : gana >
-Comanda "1" o-- "*" Punto : genera >
-Usuario "1" --> "*" Comanda : realiza >
+class GestorExtras <<control>> {
+  +proponerPlato(desc: String, ing: String) : void
+  +enviarMensaje(msg: String) : void
+  +activarSuscripcion() : void
+  +consultarPuntos() : int
+}
+
+class InterfazFuncionalidades <<boundary>> {
+  +proponerPlato() : void
+  +comunicarseConCocinero() : void
+  +activarSuscripcion() : void
+  +consultarPuntos() : int
+}
+
+class Cliente <<entity>>
+
+Cliente --> InterfazFuncionalidades
+
+InterfazFuncionalidades --> GestorExtras
+
+GestorExtras --> PlatoPropuesto : crea >
+PlatoPropuesto --> MenuPropuesto : aparece en >
+MenuPropuesto --> Chat : permite >
+
+GestorExtras --> Chat : usa >
+GestorExtras --> Suscripcion : activa/verifica >
+GestorExtras --> Punto : consulta >
+Comanda --> Punto : genera >
+Cliente --> Comanda : realiza >
 
 @enduml
-

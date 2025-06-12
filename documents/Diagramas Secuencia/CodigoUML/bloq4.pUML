@@ -1,4 +1,4 @@
-@startuml
+ @startuml
 actor Cliente
 boundary InterfazComanda
 control GestorComanda
@@ -12,14 +12,19 @@ entity Repartidor
 activate Cliente
 Cliente -> InterfazComanda : iniciarPagoComanda()
 activate InterfazComanda
+
 InterfazComanda -> GestorComanda : iniciarPagoComanda()
 activate GestorComanda
 GestorComanda -> Comanda : iniciarPagoComanda()
 activate Comanda
-Comanda -> Pago : procesarPagoComanda()
+ Cliente -> InterfazComanda : elige su plataforma
+ InterfazComanda -> GestorComanda : elige su plataforma
+Comanda -> Pago : procesarPagoComanda(metodo)
 activate Pago
 loop Mientras validarDatos() == false
- Pago -> PlataformaPago : elegirPlataforma(metodo)
+Cliente -> InterfazComanda : introduce datos bancarios
+ InterfazComanda -> GestorComanda : introduce datos bancarios
+
     activate PlataformaPago
  alt metodo == "Tarjeta"
         PlataformaPago -> Tarjeta : procesarPagoT()

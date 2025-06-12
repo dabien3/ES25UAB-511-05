@@ -1,0 +1,212 @@
+@startuml
+
+class Usuario <<entity>> {
+  -id : int
+  -nombre : string
+  -correo : string
+  +consultaMenu(): void
+}
+
+class UsuarioNoRegistrado <<entity>> {
+  +registrarse(): void
+}
+
+class UsuarioRegistrado <<entity>> {
+  +nombreUsuario : string
+  #correuElectronic : string
+  +rols : string
+  +actualizarPerfil(): void
+  +eliminarPerfil(): void
+  +proponerPlato(): void
+  +comunicarseConCocinero(): void
+  +activarSuscripcion(): void
+  +consultarPuntos(): int
+  +realizarPedido(): void
+}
+
+Usuario <|-- UsuarioRegistrado
+Usuario <|-- UsuarioNoRegistrado
+
+class Cliente <<entity>> {
+  -direccion: string
+  +restriccionesAlimentarias: string
+  +consultarPedido(): Pedido
+  +hacerPedido(): void
+  +elegirVista(): void
+  +buscarCocineroOPlato(): void
+  +mostrarHistorial(): Pedido
+  +verValoraciones(): List<Valoracion>
+  +realizarValoracion(): void
+  +verHistorialComandas(): List<Comanda>
+  +iniciarPagoComanda(): void
+}
+
+class Cocinero <<entity>> {
+  -direccion: string
+  -disponibilidad: boolean
+  -horaDisponibilidad: string
+  +mostrarDisponibilidad(): boolean, string
+  +mostrarPlatos(): string
+  +obtenerValoracion(): float
+  +prepararPedido(pedido: Pedido): void
+}
+
+class Repartidor <<entity>> {
+  -idSeguimiento: string
+  -compteBancari: string
+  +asignarSeguimiento(idSeguimiento: string): void
+  +eliminarSeguimiento(): void
+}
+
+UsuarioRegistrado <|-- Cliente
+UsuarioRegistrado <|-- Cocinero
+UsuarioRegistrado <|-- Repartidor
+
+class Pedido <<entity>> {
+  -id: int
+  -estado: string
+  -total: float
+  +iniciarEnvio(): void
+  +seguirProgreso(): void
+  +confirmarPedido(): boolean
+}
+
+class Envio <<entity>> {
+  -tipo: string
+  -costo: float
+  +calcularCosto(): float
+  +esGratuito(): bool
+}
+
+class Comanda <<entity>> {
+  -id: int
+  -fecha: Date
+  -total: float
+  +mostrarResumen(): string
+  +procesarPagoComanda(): void
+  +generarPuntos(): int
+}
+
+class Plato <<entity>> {
+  -nombre: string
+  -descripcion: string
+  -precio: float
+  -ingredientes: string
+  -tiempoEstimadoEntrega: string
+  +mostrarInfo(): string
+  +mostrarIngredientes(): string
+  +mostrarTiempoEstimadoEntrega(): string
+  +priorizarPlatos(): void
+  +modificarPlato(): void
+}
+
+class Valoracion <<entity>> {
+  -puntuacionPuntualidad: int
+  -puntuacionCalidad: int
+  -comentario: string
+  +calcularMedia(): float
+  +mostrarComentario(): string
+}
+
+class PlatoPropuesto <<entity>> {
+  -descripcion : string
+  -ingredientes : string
+  +mostrarDescripcion(): string
+  +editarPlato(): void
+}
+
+class MenuPropuesto <<entity>> {
+  -id : int
+  -nombreMenu : string
+  +agregarPlato(): void
+  +mostrarMenu(): string
+}
+
+class Suscripcion <<entity>> {
+  -tarifaPlana: boolean
+  -fechaInicio: Date
+  -fechaFin: Date
+  +estaActiva(): boolean
+  +calcularDuracion(): int
+}
+
+class Punto <<entity>> {
+  -cantidad : int
+  -descripcion : string
+  +obtenerCantidad(): int
+  +canjear(): void
+}
+
+class GestorPedido <<control>> {
+  +crearPedido(cliente: Cliente): Pedido
+  +asignarCocinero(cocinero: Cocinero, pedido: Pedido): void
+  +asignarRepartidor(envio: Envio, repartidor: Repartidor): void
+  +obtenerLinkSeguimiento(pedido: Pedido): string
+}
+
+class Pago <<control>> {
+  +identificadorC: String
+  +metodo: String
+  +estado: String
+  +elegirPlataforma(): void
+  +procesarPagoCuiner(): void
+  +procesarPagoRep(): void
+  +estadoPago(): void
+}
+
+class Menu <<boundary>>
+class ServicioMaps <<boundary>> {
+  +generarLink(idSeguimiento: string): string
+}
+class PlataformaPago <<boundary>>
+class Tarjeta <<boundary>> {
+  +procesarPagoT(): void
+}
+class PayPal <<boundary>> {
+  +procesarPagoPP(): void
+}
+class Chat <<boundary>> {
+  +enviarMensaje(msg: String): void
+  +verConversacion(): String
+}
+
+Menu --> Usuario : consulta
+UsuarioNoRegistrado --> Menu : puedeVer
+UsuarioNoRegistrado --> UsuarioRegistrado : seConvierte
+
+Cliente "1" -- "0..*" Pedido : realiza
+Pedido "1" --> "1" Cliente : pertenece
+Cocinero "1" -- "0..*" Pedido : prepara
+Pedido *-- "1" Envio : contiene
+Envio --> "1" Repartidor : entregadoPor
+GestorPedido --> Pedido
+GestorPedido --> Envio
+GestorPedido --> Cliente
+GestorPedido --> Cocinero
+GestorPedido --> Repartidor
+GestorPedido --> ServicioMaps : usa
+
+Comanda *-- "1" Pago
+Pago o-- Cocinero : transfiere %
+Pago o-- Repartidor : transfiere %
+Pago ..> PlataformaPago
+Tarjeta -|> PlataformaPago
+PayPal -|> PlataformaPago
+
+Cliente "1" o-- "0..*" Valoracion : realiza
+Valoracion --> "1" Comanda : sobre
+Valoracion --> "1" Cocinero : evalua
+
+UsuarioRegistrado "1" o-- "*" PlatoPropuesto : propone
+PlatoPropuesto "1" o-- "1" MenuPropuesto : apareceEn
+MenuPropuesto --> Chat : permite
+
+UsuarioRegistrado "1" o-- "0..1" Suscripcion : tiene
+UsuarioRegistrado "1" o-- "*" Punto : gana
+Comanda --> "*" Punto : genera
+
+Comanda --> "1..*" Plato
+Cocinero --> "0..*" Plato
+Menu o-- "*" Plato
+
+@enduml

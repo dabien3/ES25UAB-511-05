@@ -42,14 +42,22 @@ deactivate GestorExtras
 InterfazFuncionalidades --> Cliente : confirmación
 deactivate InterfazFuncionalidades
 
-Cliente -> Comanda : realizarPago()
+Cliente -> InterfazFuncionalidades : realizarPago()
+activate InterfazFuncionalidades
+InterfazFuncionalidades -> GestorExtras : procesarPago()
+activate GestorExtras
+GestorExtras -> Comanda : realizarPago()
 activate Comanda
 Comanda -> Punto : generarPuntos()
 activate Punto
 Punto --> Comanda : puntos
 deactivate Punto
-Comanda --> Cliente : confirmación
+Comanda --> GestorExtras : confirmación
 deactivate Comanda
+GestorExtras --> InterfazFuncionalidades : confirmación
+deactivate GestorExtras
+InterfazFuncionalidades --> Cliente : confirmación
+deactivate InterfazFuncionalidades
 
 Cliente -> InterfazFuncionalidades : consultarPuntos()
 activate InterfazFuncionalidades
@@ -65,3 +73,4 @@ InterfazFuncionalidades --> Cliente : cantidad
 deactivate InterfazFuncionalidades
 
 @enduml
+

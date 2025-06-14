@@ -26,7 +26,6 @@ deactivate MenuPropuesto
 deactivate PlatoPropuesto
 GestorExtras --> InterfazFuncionalidades : confirmación
 deactivate GestorExtras
-InterfazFuncionalidades --> Cliente : confirmación
 deactivate InterfazFuncionalidades
 
 Cliente -> InterfazFuncionalidades : activarSuscripcion()
@@ -39,7 +38,6 @@ Suscripcion --> GestorExtras : OK
 deactivate Suscripcion
 GestorExtras --> InterfazFuncionalidades : confirmación
 deactivate GestorExtras
-InterfazFuncionalidades --> Cliente : confirmación
 deactivate InterfazFuncionalidades
 
 Cliente -> InterfazFuncionalidades : realizarPago()
@@ -56,7 +54,6 @@ Comanda --> GestorExtras : confirmación
 deactivate Comanda
 GestorExtras --> InterfazFuncionalidades : confirmación
 deactivate GestorExtras
-InterfazFuncionalidades --> Cliente : confirmación
 deactivate InterfazFuncionalidades
 
 Cliente -> InterfazFuncionalidades : consultarPuntos()
@@ -69,7 +66,6 @@ Punto --> GestorExtras : cantidad
 deactivate Punto
 GestorExtras --> InterfazFuncionalidades : cantidad
 deactivate GestorExtras
-InterfazFuncionalidades --> Cliente : cantidad
 deactivate InterfazFuncionalidades
 
 @enduml

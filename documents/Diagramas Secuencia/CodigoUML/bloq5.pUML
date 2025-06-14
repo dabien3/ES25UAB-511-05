@@ -30,7 +30,6 @@ deactivate Valoracion
 GestorValoracion --> InterfazValoracion : confirmación
 deactivate GestorValoracion
 
-InterfazValoracion --> Cliente : confirmación
 deactivate InterfazValoracion
 
 Cliente -> InterfazValoracion : verValoraciones()
@@ -42,15 +41,14 @@ activate GestorValoracion
 GestorValoracion -> Valoracion : consultar()
 activate Valoracion
 loop por cada valoración
-Valoracion --> GestorValoracion : datosValoracion
+    Valoracion --> GestorValoracion : datosValoracion
 end
 deactivate Valoracion
 
 GestorValoracion --> InterfazValoracion : listaValoraciones
 deactivate GestorValoracion
 
-InterfazValoracion --> Cliente : listaValoraciones
 deactivate InterfazValoracion
-
 @enduml
+
 
